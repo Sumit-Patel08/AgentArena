@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as WorkspaceRouteImport } from './routes/workspace'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as SignupRouteImport } from './routes/signup'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as SecurityRouteImport } from './routes/security'
 import { Route as RecommendationsRouteImport } from './routes/recommendations'
@@ -46,6 +47,11 @@ const TermsRoute = TermsRouteImport.update({
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignupRoute = SignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SettingsRoute = SettingsRouteImport.update({
@@ -169,6 +175,7 @@ export interface FileRoutesByFullPath {
   '/recommendations': typeof RecommendationsRoute
   '/security': typeof SecurityRoute
   '/settings': typeof SettingsRoute
+  '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/workspace': typeof WorkspaceRoute
@@ -194,6 +201,7 @@ export interface FileRoutesByTo {
   '/recommendations': typeof RecommendationsRoute
   '/security': typeof SecurityRoute
   '/settings': typeof SettingsRoute
+  '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/workspace': typeof WorkspaceRoute
@@ -220,6 +228,7 @@ export interface FileRoutesById {
   '/recommendations': typeof RecommendationsRoute
   '/security': typeof SecurityRoute
   '/settings': typeof SettingsRoute
+  '/signup': typeof SignupRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/workspace': typeof WorkspaceRoute
@@ -247,6 +256,7 @@ export interface FileRouteTypes {
     | '/recommendations'
     | '/security'
     | '/settings'
+    | '/signup'
     | '/sitemap.xml'
     | '/terms'
     | '/workspace'
@@ -272,6 +282,7 @@ export interface FileRouteTypes {
     | '/recommendations'
     | '/security'
     | '/settings'
+    | '/signup'
     | '/sitemap.xml'
     | '/terms'
     | '/workspace'
@@ -297,6 +308,7 @@ export interface FileRouteTypes {
     | '/recommendations'
     | '/security'
     | '/settings'
+    | '/signup'
     | '/sitemap.xml'
     | '/terms'
     | '/workspace'
@@ -323,6 +335,7 @@ export interface RootRouteChildren {
   RecommendationsRoute: typeof RecommendationsRoute
   SecurityRoute: typeof SecurityRoute
   SettingsRoute: typeof SettingsRoute
+  SignupRoute: typeof SignupRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
   WorkspaceRoute: typeof WorkspaceRoute
@@ -350,6 +363,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/signup': {
+      id: '/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof SignupRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/settings': {
@@ -515,6 +535,7 @@ const rootRouteChildren: RootRouteChildren = {
   RecommendationsRoute: RecommendationsRoute,
   SecurityRoute: SecurityRoute,
   SettingsRoute: SettingsRoute,
+  SignupRoute: SignupRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
   WorkspaceRoute: WorkspaceRoute,

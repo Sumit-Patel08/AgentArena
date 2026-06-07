@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Checkbox } from "@/components/ui/checkbox";
-import { MdLock, MdEmail, MdArrowForward } from "react-icons/md";
+import { MdLock, MdEmail, MdArrowForward, MdPerson } from "react-icons/md";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { Bot } from "lucide-react";
@@ -19,6 +19,14 @@ export interface Auth5Props {
   signUpHref?: string;
   /** Link href for forgot password */
   forgotPasswordHref?: string;
+  /** Title of the form */
+  title?: string;
+  /** Description of the form */
+  description?: string;
+  /** Whether the form is currently submitting */
+  isLoading?: boolean;
+  /** Whether the form is for signup */
+  isSignUp?: boolean;
 }
 
 export function Auth5({
@@ -27,6 +35,10 @@ export function Auth5({
   onSubmit,
   signUpHref = "#",
   forgotPasswordHref = "#",
+  title = "Welcome back",
+  description = "Sign in to continue to your workspace.",
+  isLoading = false,
+  isSignUp = false,
 }: Auth5Props) {
   return (
     <div className="flex min-h-screen w-full flex-col p-1 lg:flex-row bg-background">
@@ -45,10 +57,10 @@ export function Auth5({
 
           <div className="space-y-1">
             <h1 className="text-foreground text-2xl font-extrabold tracking-tight">
-              Welcome back
+              {title}
             </h1>
             <p className="text-muted-foreground text-sm">
-              Sign in to continue to your workspace.
+              {description}
             </p>
           </div>
 
@@ -86,6 +98,45 @@ export function Auth5({
             }}
             className="space-y-5"
           >
+            {isSignUp && (
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-1.5">
+                  <Label htmlFor="Auth5-firstName" className="text-sm font-medium">
+                    First name
+                  </Label>
+                  <div className="relative">
+                    <MdPerson className="text-muted-foreground absolute top-1/2 left-3.5 h-4 w-4 -translate-y-1/2" />
+                    <Input
+                      id="Auth5-firstName"
+                      name="firstName"
+                      type="text"
+                      placeholder="John"
+                      className="bg-muted focus-visible:ring-primary/20 focus-visible:border-primary/50 h-11 border-0 pl-10 shadow-[0_0_0_1px_rgba(0,0,0,0.08),0_1px_4px_0px_rgba(0,0,0,0.08)]"
+                      required
+                      disabled={isLoading}
+                    />
+                  </div>
+                </div>
+                <div className="space-y-1.5">
+                  <Label htmlFor="Auth5-lastName" className="text-sm font-medium">
+                    Last name
+                  </Label>
+                  <div className="relative">
+                    <MdPerson className="text-muted-foreground absolute top-1/2 left-3.5 h-4 w-4 -translate-y-1/2" />
+                    <Input
+                      id="Auth5-lastName"
+                      name="lastName"
+                      type="text"
+                      placeholder="Doe"
+                      className="bg-muted focus-visible:ring-primary/20 focus-visible:border-primary/50 h-11 border-0 pl-10 shadow-[0_0_0_1px_rgba(0,0,0,0.08),0_1px_4px_0px_rgba(0,0,0,0.08)]"
+                      required
+                      disabled={isLoading}
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+
             <div className="space-y-1.5">
               <Label htmlFor="Auth5-email" className="text-sm font-medium">
                 Email address
@@ -94,10 +145,12 @@ export function Auth5({
                 <MdEmail className="text-muted-foreground absolute top-1/2 left-3.5 h-4 w-4 -translate-y-1/2" />
                 <Input
                   id="Auth5-email"
+                  name="email"
                   type="email"
                   placeholder="you@company.com"
                   className="bg-muted focus-visible:ring-primary/20 focus-visible:border-primary/50 h-11 border-0 pl-10 shadow-[0_0_0_1px_rgba(0,0,0,0.08),0_1px_4px_0px_rgba(0,0,0,0.08)]"
                   required
+                  disabled={isLoading}
                 />
               </div>
             </div>
@@ -118,10 +171,12 @@ export function Auth5({
                 <MdLock className="text-muted-foreground absolute top-1/2 left-3.5 h-4 w-4 -translate-y-1/2" />
                 <Input
                   id="Auth5-password"
+                  name="password"
                   type="password"
                   placeholder="••••••••••"
                   className="bg-muted focus-visible:ring-primary/20 focus-visible:border-primary/50 h-11 border-0 pl-10 shadow-[0_0_0_1px_rgba(0,0,0,0.08),0_1px_4px_0px_rgba(0,0,0,0.08)]"
                   required
+                  disabled={isLoading}
                 />
               </div>
             </div>
@@ -138,10 +193,11 @@ export function Auth5({
 
             <Button
               type="submit"
+              disabled={isLoading}
               className="from-primary to-primary/70 h-11 w-full gap-2 bg-linear-to-b font-semibold text-white shadow-sm cursor-pointer"
             >
-              {submitLabel}
-              <MdArrowForward className="h-4 w-4" />
+              {isLoading ? "Please wait..." : submitLabel}
+              {!isLoading && <MdArrowForward className="h-4 w-4" />}
             </Button>
           </form>
 

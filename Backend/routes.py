@@ -5,6 +5,7 @@ from __future__ import annotations
 import time
 from datetime import datetime, timezone
 
+# pyrefly: ignore [missing-import]
 from fastapi import APIRouter, HTTPException, Query
 
 from collector import get_star_count, run_collection_pipeline

@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useAuth } from "@/hooks/useAuth";
 import { 
   User, 
   CreditCard, 
@@ -39,11 +40,22 @@ function SettingsPage() {
 
   const [activeTab, setActiveTab] = useState<"profile" | "billing" | "credits">("profile");
 
+  const { user } = useAuth();
+  
   // Profile Form States
-  const [profileName, setProfileName] = useState("Sumit Patel");
-  const [profileEmail, setProfileEmail] = useState("sumit.patel0809@gmail.com");
+  const [profileName, setProfileName] = useState("");
+  const [profileEmail, setProfileEmail] = useState("");
   const [profileRole, setProfileRole] = useState("Competitor Intelligence Analyst");
   const [profileCompany, setProfileCompany] = useState("Pied Piper Tech");
+  
+  useEffect(() => {
+    if (user) {
+      const firstName = user.user_metadata?.first_name || "";
+      const lastName = user.user_metadata?.last_name || "";
+      setProfileName(`${firstName} ${lastName}`.trim() || user.email?.split("@")[0] || "Unknown User");
+      setProfileEmail(user.email || "");
+    }
+  }, [user]);
   
   // Notification states
   const [notifyHighThreats, setNotifyHighThreats] = useState(true);

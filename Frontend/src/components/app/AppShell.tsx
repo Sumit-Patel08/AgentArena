@@ -1,10 +1,12 @@
 import type { ReactNode } from "react";
-import { Link, useRouterState } from "@tanstack/react-router";
+import { useEffect } from "react";
+import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { LayoutGrid, Users, Lightbulb, Brain, Settings, Play, Loader2, Layers } from "lucide-react";
 import { Logo } from "@/components/site/Logo";
 import { api } from "@/lib/api";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/hooks/useAuth";
 
 type NavItem = {
   to: string;
@@ -24,7 +26,20 @@ const nav: NavItem[] = [
 
 export function AppShell({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const navigate = useNavigate();
   const qc = useQueryClient();
+  const { user, isLoading, signOut } = useAuth();
+
+  useEffect(() => {
+    if (!isLoading && !user) {
+      navigate({ to: "/login" });
+    }
+  }, [isLoading, user, navigate]);
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate({ to: "/login" });
+  };
 
   const scan = useMutation({
     mutationFn: api.runCollect,
@@ -80,14 +95,21 @@ export function AppShell({ children }: { children: ReactNode }) {
             )}
             {scan.isPending ? "Scanning…" : "Run scan now"}
           </button>
+          <button
+            type="button"
+            onClick={handleSignOut}
+            className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
+          >
+            Sign out
+          </button>
         </div>
       </aside>
       <div className="min-w-0 flex-1">
         <div className="flex items-center justify-between border-b border-border bg-background px-5 py-3 md:hidden">
           <Logo />
-          <Link to="/" className="text-xs text-muted-foreground">
-            Exit
-          </Link>
+          <button onClick={handleSignOut} className="text-xs text-muted-foreground cursor-pointer">
+            Sign out
+          </button>
         </div>
         <div className="px-5 py-6 md:px-8 md:py-8">{children}</div>
       </div>
