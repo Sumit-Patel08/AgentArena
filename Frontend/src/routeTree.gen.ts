@@ -10,16 +10,24 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as RecommendationsRouteImport } from './routes/recommendations'
 import { Route as PricingRouteImport } from './routes/pricing'
+import { Route as MemoryRouteImport } from './routes/memory'
 import { Route as HowItWorksRouteImport } from './routes/how-it-works'
 import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as CompetitorsRouteImport } from './routes/competitors'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CompetitorIdRouteImport } from './routes/competitor.$id'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RecommendationsRoute = RecommendationsRouteImport.update({
@@ -32,6 +40,11 @@ const PricingRoute = PricingRouteImport.update({
   path: '/pricing',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MemoryRoute = MemoryRouteImport.update({
+  id: '/memory',
+  path: '/memory',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const HowItWorksRoute = HowItWorksRouteImport.update({
   id: '/how-it-works',
   path: '/how-it-works',
@@ -40,6 +53,11 @@ const HowItWorksRoute = HowItWorksRouteImport.update({
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CompetitorsRoute = CompetitorsRouteImport.update({
+  id: '/competitors',
+  path: '/competitors',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -55,29 +73,38 @@ const CompetitorIdRoute = CompetitorIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/competitors': typeof CompetitorsRoute
   '/dashboard': typeof DashboardRoute
   '/how-it-works': typeof HowItWorksRoute
+  '/memory': typeof MemoryRoute
   '/pricing': typeof PricingRoute
   '/recommendations': typeof RecommendationsRoute
+  '/settings': typeof SettingsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/competitor/$id': typeof CompetitorIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/competitors': typeof CompetitorsRoute
   '/dashboard': typeof DashboardRoute
   '/how-it-works': typeof HowItWorksRoute
+  '/memory': typeof MemoryRoute
   '/pricing': typeof PricingRoute
   '/recommendations': typeof RecommendationsRoute
+  '/settings': typeof SettingsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/competitor/$id': typeof CompetitorIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/competitors': typeof CompetitorsRoute
   '/dashboard': typeof DashboardRoute
   '/how-it-works': typeof HowItWorksRoute
+  '/memory': typeof MemoryRoute
   '/pricing': typeof PricingRoute
   '/recommendations': typeof RecommendationsRoute
+  '/settings': typeof SettingsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/competitor/$id': typeof CompetitorIdRoute
 }
@@ -85,38 +112,50 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/competitors'
     | '/dashboard'
     | '/how-it-works'
+    | '/memory'
     | '/pricing'
     | '/recommendations'
+    | '/settings'
     | '/sitemap.xml'
     | '/competitor/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/competitors'
     | '/dashboard'
     | '/how-it-works'
+    | '/memory'
     | '/pricing'
     | '/recommendations'
+    | '/settings'
     | '/sitemap.xml'
     | '/competitor/$id'
   id:
     | '__root__'
     | '/'
+    | '/competitors'
     | '/dashboard'
     | '/how-it-works'
+    | '/memory'
     | '/pricing'
     | '/recommendations'
+    | '/settings'
     | '/sitemap.xml'
     | '/competitor/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CompetitorsRoute: typeof CompetitorsRoute
   DashboardRoute: typeof DashboardRoute
   HowItWorksRoute: typeof HowItWorksRoute
+  MemoryRoute: typeof MemoryRoute
   PricingRoute: typeof PricingRoute
   RecommendationsRoute: typeof RecommendationsRoute
+  SettingsRoute: typeof SettingsRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   CompetitorIdRoute: typeof CompetitorIdRoute
 }
@@ -128,6 +167,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/recommendations': {
@@ -144,6 +190,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PricingRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/memory': {
+      id: '/memory'
+      path: '/memory'
+      fullPath: '/memory'
+      preLoaderRoute: typeof MemoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/how-it-works': {
       id: '/how-it-works'
       path: '/how-it-works'
@@ -156,6 +209,13 @@ declare module '@tanstack/react-router' {
       path: '/dashboard'
       fullPath: '/dashboard'
       preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/competitors': {
+      id: '/competitors'
+      path: '/competitors'
+      fullPath: '/competitors'
+      preLoaderRoute: typeof CompetitorsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -177,10 +237,13 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CompetitorsRoute: CompetitorsRoute,
   DashboardRoute: DashboardRoute,
   HowItWorksRoute: HowItWorksRoute,
+  MemoryRoute: MemoryRoute,
   PricingRoute: PricingRoute,
   RecommendationsRoute: RecommendationsRoute,
+  SettingsRoute: SettingsRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   CompetitorIdRoute: CompetitorIdRoute,
 }

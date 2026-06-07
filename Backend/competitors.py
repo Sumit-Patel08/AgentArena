@@ -1,6 +1,10 @@
-"""Tracked competitors and their public data sources (Phase 0.3)."""
+"""Tracked competitors — dynamic from workspace or demo fallback."""
+
+from __future__ import annotations
 
 from typing import TypedDict
+
+from workspace_store import get_tracked_competitors, is_configured
 
 
 class CompetitorConfig(TypedDict):
@@ -14,7 +18,8 @@ class CompetitorConfig(TypedDict):
     description: str
 
 
-TRACKED_COMPETITORS: list[CompetitorConfig] = [
+# Demo fallback when no workspace configured (hackathon default)
+DEMO_COMPETITORS: list[CompetitorConfig] = [
     {
         "id": "supabase",
         "name": "Supabase",
@@ -58,5 +63,20 @@ TRACKED_COMPETITORS: list[CompetitorConfig] = [
 ]
 
 
+def get_all_competitors() -> list[CompetitorConfig]:
+    dynamic = get_tracked_competitors()
+    if dynamic:
+        return dynamic  # type: ignore[return-value]
+    return DEMO_COMPETITORS
+
+
 def get_competitor_by_id(competitor_id: str) -> CompetitorConfig | None:
-    return next((c for c in TRACKED_COMPETITORS if c["id"] == competitor_id), None)
+    return next((c for c in get_all_competitors() if c["id"] == competitor_id), None)
+
+
+def using_demo_data() -> bool:
+    return not is_configured()
+
+
+def get_tracked_ids() -> set[str]:
+    return {c["id"] for c in get_all_competitors()}

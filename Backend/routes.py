@@ -3,11 +3,13 @@
 from __future__ import annotations
 
 import time
+from datetime import datetime, timezone
 
 from fastapi import APIRouter, HTTPException, Query
 
-from collector import get_star_count
-from competitors import TRACKED_COMPETITORS, get_competitor_by_id
+from collector import get_star_count, run_collection_pipeline
+from competitors import get_all_competitors, get_competitor_by_id, using_demo_data
+from discovery import discover_competitors
 from llm import format_memory_block, groq_complete, parse_json_response
 from memory import recall_async
 from models import (
@@ -24,15 +26,22 @@ from models import (
     Signal,
     SourceCitation,
     ThreatPoint,
+    WorkspaceDiscoverRequest,
+    WorkspaceResponse,
+    WorkspaceSetupRequest,
 )
 from recommender import generate_recommendations
 from store import (
+    clear_all,
     get_metrics,
     get_recommendations,
     get_signals,
     set_recommendations,
+    signals_store,
     update_recommendation_status,
 )
+from workspace_store import load_workspace, reset_workspace, set_workspace
+from memory import write_memory_async
 
 router = APIRouter(prefix="/api")
 
@@ -85,7 +94,7 @@ async def list_signals(
 @router.get("/competitors", response_model=list[CompetitorSummary])
 async def list_competitors() -> list[CompetitorSummary]:
     summaries: list[CompetitorSummary] = []
-    for comp in TRACKED_COMPETITORS:
+    for comp in get_all_competitors():
         signals = get_signals(competitor=comp["id"], limit=100)
         threat_scores = [int(s.get("threat_score", 5)) for s in signals[:3]]
         threat_score = max(threat_scores) if threat_scores else 5
@@ -95,6 +104,7 @@ async def list_competitors() -> list[CompetitorSummary]:
             CompetitorSummary(
                 id=comp["id"],
                 name=comp["name"],
+                description=comp.get("description", ""),
                 threat_score=threat_score,
                 stars=get_star_count(comp["id"]),
                 stars_delta_week=0,
@@ -289,11 +299,82 @@ async def digest() -> DigestResponse:
     )
 
 
+def _workspace_response() -> WorkspaceResponse:
+    ws = load_workspace()
+    return WorkspaceResponse(
+        configured=bool(ws.get("configured")),
+        company_name=ws.get("company_name", ""),
+        website=ws.get("website", ""),
+        domain=ws.get("domain", ""),
+        email=ws.get("email", ""),
+        competitors=ws.get("competitors") or ([] if not ws.get("configured") else get_all_competitors()),
+        using_demo_data=using_demo_data(),
+        signals_count=len(signals_store),
+    )
+
+
+@router.get("/workspace", response_model=WorkspaceResponse)
+async def get_workspace() -> WorkspaceResponse:
+    return _workspace_response()
+
+
+@router.post("/workspace/discover")
+async def workspace_discover(body: WorkspaceDiscoverRequest) -> dict:
+    competitors = await discover_competitors(
+        body.company_name, body.website, body.domain, body.industry
+    )
+    return {"competitors": competitors, "count": len(competitors)}
+
+
+@router.post("/workspace/setup", response_model=WorkspaceResponse)
+async def workspace_setup(body: WorkspaceSetupRequest) -> WorkspaceResponse:
+    competitors = body.competitors
+    if not competitors:
+        competitors = await discover_competitors(
+            body.company_name, body.website, body.domain, body.industry
+        )
+    if not competitors:
+        raise HTTPException(status_code=400, detail="Could not discover competitors. Try adding manually.")
+
+    clear_all()
+    global _rec_cache, _rec_cache_at
+    _rec_cache = []
+    _rec_cache_at = 0.0
+
+    domain = body.domain or body.website.replace("https://", "").replace("http://", "").split("/")[0]
+    set_workspace(body.company_name, body.website, domain, body.email, competitors)
+
+    await write_memory_async(
+        f"Started monitoring {len(competitors)} competitors for {body.company_name} ({domain})",
+        {
+            "namespace": "patterns",
+            "competitor": "workspace",
+            "signal_type": "announcement",
+            "threat_score": 5,
+            "source": "agent-arena",
+            "source_url": body.website,
+            "date": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        },
+    )
+
+    if body.run_collection:
+        await run_collection_pipeline()
+
+    return _workspace_response()
+
+
+@router.post("/workspace/reset", response_model=WorkspaceResponse)
+async def workspace_reset() -> WorkspaceResponse:
+    reset_workspace()
+    clear_all()
+    from seed import load_store_from_seed
+    load_store_from_seed()
+    return _workspace_response()
+
+
 @router.post("/collect/run", response_model=CollectRunResponse)
 async def collect_run() -> CollectRunResponse:
     try:
-        from collector import run_collection_pipeline
-
         result = await run_collection_pipeline()
         return CollectRunResponse(
             collected=result.get("collected", 0),

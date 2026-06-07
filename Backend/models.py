@@ -43,6 +43,7 @@ class ThreatPoint(BaseModel):
 class CompetitorSummary(BaseModel):
     id: str
     name: str
+    description: str = ""
     threat_score: int = Field(ge=1, le=10)
     stars: int
     stars_delta_week: int
@@ -119,3 +120,31 @@ class HealthResponse(BaseModel):
 
 class RecommendationStatusUpdate(BaseModel):
     status: RecommendationStatus
+
+
+class WorkspaceDiscoverRequest(BaseModel):
+    company_name: str
+    website: str
+    domain: str = ""
+    industry: str = ""
+
+
+class WorkspaceSetupRequest(BaseModel):
+    company_name: str
+    website: str
+    email: str = ""
+    domain: str = ""
+    industry: str = ""
+    competitors: list[dict] | None = None
+    run_collection: bool = True
+
+
+class WorkspaceResponse(BaseModel):
+    configured: bool
+    company_name: str
+    website: str
+    domain: str
+    email: str
+    competitors: list[dict]
+    using_demo_data: bool
+    signals_count: int = 0

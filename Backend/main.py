@@ -21,12 +21,15 @@ logger = logging.getLogger(__name__)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    from competitors import using_demo_data
     from store import signals_store
     from seed import load_store_from_seed
 
-    if not signals_store:
+    if not signals_store and using_demo_data():
         loaded = load_store_from_seed()
-        logger.info("Loaded %s seed signals into store on startup", loaded)
+        logger.info("Demo mode: loaded %s seed signals", loaded)
+    elif not signals_store:
+        logger.info("Workspace configured — waiting for collection (no static seed)")
 
     start_scheduler()
     logger.info("Agent Arena backend started")
@@ -42,14 +45,18 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-origins = [
-    o.strip()
-    for o in os.getenv(
-        "ALLOWED_ORIGINS",
-        "http://localhost:3000,http://localhost:5173,http://127.0.0.1:3000",
-    ).split(",")
-    if o.strip()
+LOCAL_DEV_ORIGINS = [
+    "http://localhost:3000",
+    "http://localhost:5173",
+    "http://localhost:8080",
+    "http://127.0.0.1:3000",
+    "http://127.0.0.1:5173",
+    "http://127.0.0.1:8080",
 ]
+env_origins = [
+    o.strip() for o in os.getenv("ALLOWED_ORIGINS", "").split(",") if o.strip()
+]
+origins = list(dict.fromkeys(env_origins + LOCAL_DEV_ORIGINS))
 
 app.add_middleware(
     CORSMiddleware,

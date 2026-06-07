@@ -23,8 +23,11 @@ function Recs() {
   const { data: competitors = [] } = useQuery({ queryKey: ["competitors"], queryFn: api.listCompetitors });
   const [statuses, setStatuses] = useState<Record<string, Status>>({});
 
-  const update = (id: string, s: Status) =>
+  const update = (id: string, s: Status) => {
     setStatuses((prev) => ({ ...prev, [id]: s }));
+    if (s === "done") api.updateRecommendationStatus(id, "implemented").catch(() => {});
+    if (s === "dismissed") api.updateRecommendationStatus(id, "dismissed").catch(() => {});
+  };
 
   const order: Record<Recommendation["priority"], number> = { High: 0, Medium: 1, Low: 2 };
   const open = recs

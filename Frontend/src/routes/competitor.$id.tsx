@@ -61,7 +61,14 @@ function CompetitorDetail() {
   });
   const peakWeeks = events.map((e) => e.week);
 
-  const compRecs = recs.filter((r) => r.competitorId === id).slice(0, 3);
+  const compRecs = recs
+    .filter(
+      (r) =>
+        r.competitorId === id ||
+        r.competitorId.toLowerCase() === id.toLowerCase() ||
+        r.competitorId.toLowerCase() === competitor?.name.toLowerCase(),
+    )
+    .slice(0, 3);
 
   return (
     <AppShell>

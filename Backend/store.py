@@ -6,7 +6,8 @@ import threading
 from datetime import datetime, timedelta, timezone
 from typing import Any
 
-from competitors import TRACKED_COMPETITORS
+from competitors import get_all_competitors, get_tracked_ids
+from workspace_store import is_configured
 from models import Metrics, MetricsDeltas, Recommendation, Signal
 
 _lock = threading.Lock()
@@ -27,8 +28,11 @@ def append_recommendation(rec: dict[str, Any] | Recommendation) -> None:
 
 
 def get_signals(competitor: str | None = None, limit: int = 50) -> list[dict[str, Any]]:
+    tracked = get_tracked_ids() if is_configured() else None
     with _lock:
         items = list(signals_store)
+    if tracked is not None:
+        items = [s for s in items if s.get("competitor") in tracked]
     if competitor:
         items = [s for s in items if s.get("competitor") == competitor]
     items.sort(key=lambda s: s.get("date", ""), reverse=True)
@@ -44,6 +48,12 @@ def set_recommendations(recs: list[dict[str, Any]]) -> None:
     with _lock:
         recommendations_store.clear()
         recommendations_store.extend(recs)
+
+
+def clear_all() -> None:
+    with _lock:
+        signals_store.clear()
+        recommendations_store.clear()
 
 
 def source_url_exists(source_url: str) -> bool:
@@ -65,9 +75,13 @@ def get_metrics() -> Metrics:
     week_ago = now - timedelta(days=7)
     two_weeks_ago = now - timedelta(days=14)
 
+    tracked = get_tracked_ids() if is_configured() else None
     with _lock:
         signals = list(signals_store)
         recs = list(recommendations_store)
+    if tracked is not None:
+        signals = [s for s in signals if s.get("competitor") in tracked]
+        recs = [r for r in recs if r.get("competitor") in tracked]
 
     def parse_date(value: str) -> datetime | None:
         try:
@@ -99,7 +113,7 @@ def get_metrics() -> Metrics:
 
     return Metrics(
         total_signals=len(signals),
-        active_competitors=len(active) or len(TRACKED_COMPETITORS),
+        active_competitors=len(get_all_competitors()) if is_configured() else (len(active) or len(get_all_competitors())),
         high_threats_week=high_this,
         new_recommendations=len(open_recs),
         deltas=MetricsDeltas(

@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import {
   ResponsiveContainer,
   PieChart,
@@ -53,8 +54,29 @@ function relTime(iso: string) {
 }
 
 function Dashboard() {
+  const { data: workspace } = useQuery({ queryKey: ["workspace"], queryFn: api.getWorkspace });
+  const [search, setSearch] = useState("");
   const { data: signals = [] } = useQuery({ queryKey: ["signals"], queryFn: api.listSignals });
   const { data: competitors = [] } = useQuery({ queryKey: ["competitors"], queryFn: api.listCompetitors });
+  const { data: metricsData } = useQuery({ queryKey: ["metrics"], queryFn: api.getMetrics });
+
+  const q = search.toLowerCase().trim();
+  const filteredSignals = signals.filter((s) => {
+    if (!q) return true;
+    const comp = competitors.find((c) => c.id === s.competitorId);
+    return (
+      s.summary.toLowerCase().includes(q) ||
+      s.competitorId.toLowerCase().includes(q) ||
+      (comp?.name.toLowerCase().includes(q) ?? false)
+    );
+  });
+  const filteredCompetitors = competitors.filter(
+    (c) =>
+      !q ||
+      c.name.toLowerCase().includes(q) ||
+      c.id.toLowerCase().includes(q) ||
+      c.description.toLowerCase().includes(q),
+  );
 
   const high = signals.filter((s) => s.threat >= 7).length;
   const med = signals.filter((s) => s.threat >= 4 && s.threat < 7).length;
@@ -65,15 +87,25 @@ function Dashboard() {
     { name: "Low", value: low || 1, color: "var(--color-threat-low)" },
   ];
 
+  const deltaUp = (d?: string) => !d?.startsWith("-");
   const metrics = [
-    { l: "Total signals", v: 142, d: "+18", up: true },
-    { l: "Active competitors", v: competitors.length || 4, d: "+1", up: true },
-    { l: "High threats this week", v: high, d: "+2", up: true, threat: true },
-    { l: "New recommendations", v: 5, d: "+3", up: true },
+    { l: "Total signals", v: metricsData?.total_signals ?? signals.length, d: metricsData?.deltas?.total_signals ?? "+0", up: deltaUp(metricsData?.deltas?.total_signals) },
+    { l: "Active competitors", v: metricsData?.active_competitors ?? competitors.length, d: metricsData?.deltas?.active_competitors ?? "+0", up: deltaUp(metricsData?.deltas?.active_competitors) },
+    { l: "High threats this week", v: metricsData?.high_threats_week ?? high, d: metricsData?.deltas?.high_threats_week ?? "+0", up: deltaUp(metricsData?.deltas?.high_threats_week), threat: true },
+    { l: "New recommendations", v: metricsData?.new_recommendations ?? 0, d: metricsData?.deltas?.new_recommendations ?? "+0", up: deltaUp(metricsData?.deltas?.new_recommendations) },
   ];
 
   return (
     <AppShell>
+      {workspace && !workspace.configured && (
+        <div className="mb-6 rounded-xl border border-primary/30 bg-[var(--color-primary-tint)] p-4 text-sm">
+          <strong>Demo mode</strong> — showing 23 sample signals for Supabase, Appwrite, PocketBase & Convex.{" "}
+          <Link to="/settings" className="font-medium text-primary underline">
+            Set up your company
+          </Link>{" "}
+          to auto-discover your competitors and collect live intel for them only.
+        </div>
+      )}
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="text-xs uppercase tracking-wider text-muted-foreground">Dashboard</p>
@@ -83,6 +115,8 @@ function Dashboard() {
           <div className="relative">
             <Search className="absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
             <input
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
               placeholder="Search competitors or signals"
               className="h-9 w-64 rounded-md border border-border bg-background pl-8 pr-3 text-sm outline-none focus:ring-2 focus:ring-ring/40"
             />
@@ -114,10 +148,10 @@ function Dashboard() {
         <div className="rounded-xl border border-border bg-background p-5 lg:col-span-2">
           <div className="flex items-center justify-between">
             <h2 className="text-sm font-semibold">Signal timeline</h2>
-            <span className="text-xs text-muted-foreground">{signals.length} signals</span>
+            <span className="text-xs text-muted-foreground">{filteredSignals.length} signals</span>
           </div>
           <ul className="mt-4 divide-y divide-border">
-            {signals.slice(0, 8).map((s) => (
+            {filteredSignals.slice(0, 8).map((s) => (
               <SignalRow key={s.id} signal={s} competitors={competitors} />
             ))}
           </ul>
@@ -204,15 +238,14 @@ function Dashboard() {
         <div className="flex items-center justify-between">
           <h2 className="text-sm font-semibold">Competitors</h2>
           <Link
-            to="/competitor/$id"
-            params={{ id: "supabase" }}
+            to="/competitors"
             className="inline-flex items-center gap-1 text-xs text-primary hover:underline"
           >
             View all <ArrowRight className="size-3" />
           </Link>
         </div>
         <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          {competitors.map((c) => (
+          {filteredCompetitors.map((c) => (
             <CompetitorCard key={c.id} c={c} />
           ))}
         </div>

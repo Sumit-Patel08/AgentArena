@@ -11,7 +11,7 @@ import httpx
 from dotenv import load_dotenv
 
 from classifier import classify_signal
-from competitors import TRACKED_COMPETITORS
+from competitors import get_all_competitors
 from memory import write_memory_async
 from models import Signal, SignalType
 from store import append_signal, source_url_exists
@@ -158,7 +158,7 @@ async def collect_all() -> list[dict]:
     """Fetch raw signals for all tracked competitors."""
     all_signals: list[dict] = []
     async with httpx.AsyncClient(timeout=30.0) as client:
-        for comp in TRACKED_COMPETITORS:
+        for comp in get_all_competitors():
             try:
                 gh = await _fetch_github_signals(client, comp)
                 rd = await _fetch_reddit_signals(client, comp)
