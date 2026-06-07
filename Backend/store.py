@@ -1,30 +1,75 @@
-"""In-memory store for signals and recommendations."""
+"""In-memory store for signals and recommendations with file-backed persistence."""
 
 from __future__ import annotations
 
+import json
 import threading
 from datetime import datetime, timedelta, timezone
+from pathlib import Path
 from typing import Any
 
 from competitors import get_all_competitors, get_tracked_ids
 from workspace_store import is_configured
 from models import Metrics, MetricsDeltas, Recommendation, Signal
 
+DATA_DIR = Path(__file__).parent / "data"
+SIGNALS_FILE = DATA_DIR / "signals.json"
+RECOMMENDATIONS_FILE = DATA_DIR / "recommendations.json"
+
 _lock = threading.Lock()
 signals_store: list[dict[str, Any]] = []
 recommendations_store: list[dict[str, Any]] = []
+
+
+def _load_persisted() -> None:
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
+    if SIGNALS_FILE.exists():
+        try:
+            data = json.loads(SIGNALS_FILE.read_text(encoding="utf-8"))
+            if isinstance(data, list):
+                signals_store.clear()
+                signals_store.extend(data)
+        except Exception:
+            pass
+    if RECOMMENDATIONS_FILE.exists():
+        try:
+            data = json.loads(RECOMMENDATIONS_FILE.read_text(encoding="utf-8"))
+            if isinstance(data, list):
+                recommendations_store.clear()
+                recommendations_store.extend(data)
+        except Exception:
+            pass
+
+
+_load_persisted()
+
+
+def _save_signals_db() -> None:
+    try:
+        SIGNALS_FILE.write_text(json.dumps(signals_store, indent=2), encoding="utf-8")
+    except Exception:
+        pass
+
+
+def _save_recs_db() -> None:
+    try:
+        RECOMMENDATIONS_FILE.write_text(json.dumps(recommendations_store, indent=2), encoding="utf-8")
+    except Exception:
+        pass
 
 
 def append_signal(signal: dict[str, Any] | Signal) -> None:
     payload = signal.model_dump() if isinstance(signal, Signal) else signal
     with _lock:
         signals_store.append(payload)
+        _save_signals_db()
 
 
 def append_recommendation(rec: dict[str, Any] | Recommendation) -> None:
     payload = rec.model_dump() if isinstance(rec, Recommendation) else rec
     with _lock:
         recommendations_store.append(payload)
+        _save_recs_db()
 
 
 def get_signals(competitor: str | None = None, limit: int = 50) -> list[dict[str, Any]]:
@@ -48,12 +93,15 @@ def set_recommendations(recs: list[dict[str, Any]]) -> None:
     with _lock:
         recommendations_store.clear()
         recommendations_store.extend(recs)
+        _save_recs_db()
 
 
 def clear_all() -> None:
     with _lock:
         signals_store.clear()
         recommendations_store.clear()
+        _save_signals_db()
+        _save_recs_db()
 
 
 def source_url_exists(source_url: str) -> bool:
@@ -66,8 +114,10 @@ def update_recommendation_status(rec_id: str, status: str) -> dict[str, Any] | N
         for rec in recommendations_store:
             if rec.get("id") == rec_id:
                 rec["status"] = status
+                _save_recs_db()
                 return dict(rec)
     return None
+
 
 
 def get_metrics() -> Metrics:

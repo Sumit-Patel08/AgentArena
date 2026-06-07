@@ -60,7 +60,10 @@ async def generate_recommendations() -> list[dict]:
     high_threat = [s for s in store_signals if int(s.get("threat_score", 0)) >= 6]
 
     if not high_threat:
-        memories = await recall_async("high threat competitor activity recent", k=10)
+        memories = await recall_async("high threat competitor activity recent", k=30)
+        from competitors import get_tracked_ids
+        from workspace_store import is_configured
+        tracked_ids = get_tracked_ids() if is_configured() else None
         high_threat = [
             {
                 "id": f"mem-{i}",
@@ -70,7 +73,8 @@ async def generate_recommendations() -> list[dict]:
                 "date": m.get("date", ""),
             }
             for i, m in enumerate(memories)
-            if int(m.get("threat_score", 5)) >= 6 or m.get("text")
+            if (int(m.get("threat_score", 5)) >= 6 or m.get("text")) and
+               (tracked_ids is None or m.get("competitor", "").lower() in [tid.lower() for tid in tracked_ids])
         ]
 
     if not high_threat:

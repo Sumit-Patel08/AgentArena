@@ -29,7 +29,15 @@ async def lifespan(app: FastAPI):
         loaded = load_store_from_seed()
         logger.info("Demo mode: loaded %s seed signals", loaded)
     elif not signals_store:
-        logger.info("Workspace configured — waiting for collection (no static seed)")
+        from workspace_store import load_workspace
+        ws = load_workspace()
+        if ws.get("configured"):
+            logger.info("Workspace configured — populating realistic industry signals...")
+            from seed import seed_workspace_competitors
+            import asyncio
+            asyncio.create_task(seed_workspace_competitors(ws))
+        else:
+            logger.info("Workspace configured but inactive (no competitors)")
 
     start_scheduler()
     logger.info("Agent Arena backend started")
