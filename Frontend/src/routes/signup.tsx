@@ -55,6 +55,51 @@ function Signup() {
     }
   };
 
+  const handleInstantAccess = async () => {
+    setIsLoading(true);
+    const email = "demo@agentarena.com";
+    const password = "password123";
+
+    // Try to sign in first
+    let { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    // If fails (e.g. user does not exist), register/signup first and then sign in
+    if (error) {
+      const { error: signUpError } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            first_name: "Demo",
+            last_name: "User",
+          }
+        }
+      });
+      
+      if (!signUpError) {
+        const { error: signInErr } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
+        error = signInErr;
+      } else {
+        error = signUpError;
+      }
+    }
+
+    setIsLoading(false);
+
+    if (error) {
+      toast.error(error.message);
+    } else {
+      toast.success("Welcome! Logged in with demo account.");
+      navigate({ to: "/dashboard" });
+    }
+  };
+
   return (
     <div className={isLoading ? "pointer-events-none" : ""}>
       <Auth5
@@ -63,6 +108,7 @@ function Signup() {
         description="Sign up to start monitoring your competitors."
         submitLabel="Sign up"
         onSubmit={handleSignUp}
+        onInstantAccess={handleInstantAccess}
         signUpHref="/signup"
         forgotPasswordHref="/dashboard"
         isLoading={isLoading}

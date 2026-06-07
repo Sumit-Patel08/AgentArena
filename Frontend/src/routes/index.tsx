@@ -79,7 +79,7 @@ function Hero() {
         </p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
           <Link
-            to="/login"
+            to="/dashboard"
             className="inline-flex h-11 items-center gap-1.5 rounded-lg bg-primary px-5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
           >
             Get started free
@@ -582,7 +582,7 @@ function FinalCTA() {
       </p>
       <div className="mt-8 flex justify-center gap-3">
         <Link
-          to="/login"
+          to="/dashboard"
           className="inline-flex h-11 items-center gap-1.5 rounded-lg bg-primary px-6 text-sm font-medium text-primary-foreground hover:bg-primary/90"
         >
           Get started free <ArrowRight className="size-4" />

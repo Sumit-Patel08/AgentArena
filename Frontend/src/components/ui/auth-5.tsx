@@ -27,6 +27,8 @@ export interface Auth5Props {
   isLoading?: boolean;
   /** Whether the form is for signup */
   isSignUp?: boolean;
+  /** Callback to skip sign in and log in as guest / demo account directly */
+  onInstantAccess?: () => void;
 }
 
 export function Auth5({
@@ -39,6 +41,7 @@ export function Auth5({
   description = "Sign in to continue to your workspace.",
   isLoading = false,
   isSignUp = false,
+  onInstantAccess,
 }: Auth5Props) {
   return (
     <div className="flex min-h-screen w-full flex-col p-1 lg:flex-row bg-background">
@@ -82,6 +85,18 @@ export function Auth5({
               GitHub
             </Button>
           </div>
+
+          {onInstantAccess && (
+            <Button
+              variant="outline"
+              type="button"
+              onClick={onInstantAccess}
+              disabled={isLoading}
+              className="w-full h-11 bg-primary/10 border-2 border-primary/20 text-primary hover:bg-primary/15 hover:border-primary/30 flex items-center justify-center gap-2 font-semibold transition-all duration-300 rounded-lg shadow-xs cursor-pointer"
+            >
+              <span>⚡</span> Instant Demo Login (Free)
+            </Button>
+          )}
 
           <div className="flex items-center gap-3">
             <Separator className="flex-1" />

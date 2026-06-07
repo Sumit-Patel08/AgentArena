@@ -30,15 +30,8 @@ export function AppShell({ children }: { children: ReactNode }) {
   const qc = useQueryClient();
   const { user, isLoading, signOut } = useAuth();
 
-  useEffect(() => {
-    if (!isLoading && !user) {
-      navigate({ to: "/login" });
-    }
-  }, [isLoading, user, navigate]);
-
   const handleSignOut = async () => {
-    await signOut();
-    navigate({ to: "/login" });
+    navigate({ to: "/" });
   };
 
   const scan = useMutation({

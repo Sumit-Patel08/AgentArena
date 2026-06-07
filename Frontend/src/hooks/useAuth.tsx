@@ -1,6 +1,31 @@
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useState } from 'react';
 import { Session, User } from '@supabase/supabase-js';
-import { supabase } from '@/lib/supabase';
+
+// Mock session and user to completely bypass Supabase Auth login
+const MOCK_USER: User = {
+  id: 'demo-user-id',
+  aud: 'authenticated',
+  role: 'authenticated',
+  email: 'demo@agentarena.com',
+  email_confirmed_at: new Date().toISOString(),
+  phone: '',
+  confirmed_at: new Date().toISOString(),
+  last_sign_in_at: new Date().toISOString(),
+  app_metadata: { provider: 'email', providers: ['email'] },
+  user_metadata: { first_name: 'Demo', last_name: 'User' },
+  identities: [],
+  created_at: new Date().toISOString(),
+  updated_at: new Date().toISOString(),
+};
+
+const MOCK_SESSION: Session = {
+  access_token: 'mock-access-token',
+  token_type: 'bearer',
+  expires_in: 3600,
+  refresh_token: 'mock-refresh-token',
+  user: MOCK_USER,
+  expires_at: Math.floor(Date.now() / 1000) + 3600,
+};
 
 interface AuthContextType {
   session: Session | null;
@@ -10,37 +35,19 @@ interface AuthContextType {
 }
 
 const AuthContext = createContext<AuthContextType>({
-  session: null,
-  user: null,
+  session: MOCK_SESSION,
+  user: MOCK_USER,
   signOut: async () => {},
-  isLoading: true,
+  isLoading: false,
 });
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [session, setSession] = useState<Session | null>(null);
-  const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-      setIsLoading(false);
-    });
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
-        setSession(session);
-        setUser(session?.user ?? null);
-        setIsLoading(false);
-      }
-    );
-
-    return () => subscription.unsubscribe();
-  }, []);
+  const [session] = useState<Session | null>(MOCK_SESSION);
+  const [user] = useState<User | null>(MOCK_USER);
+  const [isLoading] = useState(false);
 
   const signOut = async () => {
-    await supabase.auth.signOut();
+    console.log("Mock sign out completed.");
   };
 
   return (
@@ -53,3 +60,4 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 export const useAuth = () => {
   return useContext(AuthContext);
 };
+

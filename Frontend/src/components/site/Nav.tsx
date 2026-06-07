@@ -58,14 +58,11 @@ export function Nav() {
           })}
         </nav>
         <div className="hidden items-center gap-3 md:flex">
-          <Link to="/login" className="text-sm text-muted-foreground hover:text-foreground">
-            Log in
-          </Link>
           <Link
-            to="/login"
-            className="inline-flex h-9 items-center rounded-lg bg-primary px-3.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            to="/dashboard"
+            className="inline-flex h-9 items-center rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
           >
-            Get started
+            Enter App
           </Link>
         </div>
         <button
@@ -90,11 +87,11 @@ export function Nav() {
               </Link>
             ))}
             <Link
-              to="/login"
+              to="/dashboard"
               onClick={() => setOpen(false)}
               className="mt-2 inline-flex h-10 items-center justify-center rounded-lg bg-primary px-3.5 text-sm font-medium text-primary-foreground"
             >
-              Get started
+              Enter App
             </Link>
           </div>
         </div>
