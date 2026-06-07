@@ -14,6 +14,7 @@ import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as RecommendationsRouteImport } from './routes/recommendations'
 import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as MemoryRouteImport } from './routes/memory'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as HowItWorksRouteImport } from './routes/how-it-works'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as CompetitorsRouteImport } from './routes/competitors'
@@ -43,6 +44,11 @@ const PricingRoute = PricingRouteImport.update({
 const MemoryRoute = MemoryRouteImport.update({
   id: '/memory',
   path: '/memory',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HowItWorksRoute = HowItWorksRouteImport.update({
@@ -76,6 +82,7 @@ export interface FileRoutesByFullPath {
   '/competitors': typeof CompetitorsRoute
   '/dashboard': typeof DashboardRoute
   '/how-it-works': typeof HowItWorksRoute
+  '/login': typeof LoginRoute
   '/memory': typeof MemoryRoute
   '/pricing': typeof PricingRoute
   '/recommendations': typeof RecommendationsRoute
@@ -88,6 +95,7 @@ export interface FileRoutesByTo {
   '/competitors': typeof CompetitorsRoute
   '/dashboard': typeof DashboardRoute
   '/how-it-works': typeof HowItWorksRoute
+  '/login': typeof LoginRoute
   '/memory': typeof MemoryRoute
   '/pricing': typeof PricingRoute
   '/recommendations': typeof RecommendationsRoute
@@ -101,6 +109,7 @@ export interface FileRoutesById {
   '/competitors': typeof CompetitorsRoute
   '/dashboard': typeof DashboardRoute
   '/how-it-works': typeof HowItWorksRoute
+  '/login': typeof LoginRoute
   '/memory': typeof MemoryRoute
   '/pricing': typeof PricingRoute
   '/recommendations': typeof RecommendationsRoute
@@ -115,6 +124,7 @@ export interface FileRouteTypes {
     | '/competitors'
     | '/dashboard'
     | '/how-it-works'
+    | '/login'
     | '/memory'
     | '/pricing'
     | '/recommendations'
@@ -127,6 +137,7 @@ export interface FileRouteTypes {
     | '/competitors'
     | '/dashboard'
     | '/how-it-works'
+    | '/login'
     | '/memory'
     | '/pricing'
     | '/recommendations'
@@ -139,6 +150,7 @@ export interface FileRouteTypes {
     | '/competitors'
     | '/dashboard'
     | '/how-it-works'
+    | '/login'
     | '/memory'
     | '/pricing'
     | '/recommendations'
@@ -152,6 +164,7 @@ export interface RootRouteChildren {
   CompetitorsRoute: typeof CompetitorsRoute
   DashboardRoute: typeof DashboardRoute
   HowItWorksRoute: typeof HowItWorksRoute
+  LoginRoute: typeof LoginRoute
   MemoryRoute: typeof MemoryRoute
   PricingRoute: typeof PricingRoute
   RecommendationsRoute: typeof RecommendationsRoute
@@ -197,6 +210,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MemoryRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/how-it-works': {
       id: '/how-it-works'
       path: '/how-it-works'
@@ -240,6 +260,7 @@ const rootRouteChildren: RootRouteChildren = {
   CompetitorsRoute: CompetitorsRoute,
   DashboardRoute: DashboardRoute,
   HowItWorksRoute: HowItWorksRoute,
+  LoginRoute: LoginRoute,
   MemoryRoute: MemoryRoute,
   PricingRoute: PricingRoute,
   RecommendationsRoute: RecommendationsRoute,

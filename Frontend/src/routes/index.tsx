@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { ThreatBadge, SignalTypeTag } from "@/components/ui/badges";
+import { Card4 } from "@/components/ui/card-4";
 import {
   ArrowRight,
   Github,
@@ -38,6 +39,7 @@ function Landing() {
     <SiteLayout showAnnouncement>
       <Hero />
       <TrustBar />
+      <ArenaShowcase />
       <Problem />
       <Features />
       <MemorySection />
@@ -176,6 +178,54 @@ function TrustBar() {
       <div className="mt-6 flex flex-wrap items-center justify-center gap-x-12 gap-y-4 text-lg font-semibold tracking-tight text-muted-foreground/80">
         {["Supabase", "Appwrite", "PocketBase", "Convex", "Neon"].map((n) => (
           <span key={n}>{n}</span>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function ArenaShowcase() {
+  const items = [
+    {
+      title: "Supabase GA Vector Search",
+      description: "Launched native vector database capabilities (pgvector) in GA, directly targeting AI-native application architectures.",
+      imageSrc: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80",
+      threat: 8,
+    },
+    {
+      title: "PocketBase Realtime Sync",
+      description: "v0.22 release introduces native realtime subscriptions, closing the offline-sync gap for client-heavy web applications.",
+      imageSrc: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80",
+      threat: 6,
+    },
+    {
+      title: "Appwrite Cloud Pro Launch",
+      description: "Unveiled their managed Cloud Pro plan, shifting focus upstream towards startup and enterprise-scale workloads.",
+      imageSrc: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=600&q=80",
+      threat: 7,
+    },
+  ];
+
+  return (
+    <section className="container-x py-16">
+      <div className="text-center max-w-2xl mx-auto mb-10">
+        <p className="text-xs font-medium uppercase tracking-[0.18em] text-primary">Live Tracking</p>
+        <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">
+          Inside the Agent Arena
+        </h2>
+        <p className="mt-4 text-muted-foreground">
+          See the actual competitor events currently being parsed and analyzed by Agent Arena.
+        </p>
+      </div>
+      <div className="grid gap-6 md:grid-cols-3 justify-items-center">
+        {items.map((it) => (
+          <Card4
+            key={it.title}
+            title={it.title}
+            description={it.description}
+            imageSrc={it.imageSrc}
+            badge={<ThreatBadge value={it.threat} />}
+          />
         ))}
       </div>
     </section>
