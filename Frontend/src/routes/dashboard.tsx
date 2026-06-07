@@ -97,15 +97,6 @@ function Dashboard() {
 
   return (
     <AppShell>
-      {workspace && !workspace.configured && (
-        <div className="mb-6 rounded-xl border border-primary/30 bg-[var(--color-primary-tint)] p-4 text-sm">
-          <strong>Demo mode</strong> — showing 23 sample signals for Supabase, Appwrite, PocketBase & Convex.{" "}
-          <Link to="/settings" className="font-medium text-primary underline">
-            Set up your company
-          </Link>{" "}
-          to auto-discover your competitors and collect live intel for them only.
-        </div>
-      )}
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="text-xs uppercase tracking-wider text-muted-foreground">Dashboard</p>
