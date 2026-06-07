@@ -158,7 +158,7 @@ function RecCard({
     : "border-border hover:border-primary/30";
 
   return (
-    <article className={`rounded-xl border p-5 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md ${cardStyle}`}>
+    <article className={`rounded-xl border-[1.5px] p-5 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md ${cardStyle}`}>
       <div className="flex items-start justify-between gap-3">
         <div className="flex flex-wrap items-center gap-2">
           <PriorityBadge priority={r.priority} />

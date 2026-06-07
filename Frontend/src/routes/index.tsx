@@ -191,19 +191,19 @@ function ArenaShowcase() {
     {
       title: "Vercel v0 Generative UI",
       description: "Launched v0.dev in public beta, allowing developers to generate and deploy React + Tailwind components with simple text prompts.",
-      imageSrc: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&w=600&q=80",
+      imageSrc: "/V0 dev dashboard.webp",
       threat: 9,
     },
     {
       title: "PocketBase Realtime Sync",
       description: "v0.22 release introduces native realtime subscriptions, closing the offline-sync gap for client-heavy web applications.",
-      imageSrc: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80",
+      imageSrc: "/PocketBase Realtime Sync.png",
       threat: 6,
     },
     {
       title: "Appwrite Cloud Pro Launch",
       description: "Unveiled their managed Cloud Pro plan, shifting focus upstream towards startup and enterprise-scale workloads.",
-      imageSrc: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=600&q=80",
+      imageSrc: "/Appwrite Cloud Pro Launch.webp",
       threat: 7,
     },
   ];
@@ -367,7 +367,7 @@ function CorePillars() {
             return (
               <div 
                 key={i}
-                className="group bg-card rounded-[28px] border border-primary/25 p-8 h-full flex flex-col items-center text-center transition-all duration-300 hover:scale-[1.02] hover:border-primary/50 hover:shadow-lg hover:shadow-primary/5"
+                className="group bg-card rounded-[28px] border-2 border-primary/30 p-8 h-full flex flex-col items-center text-center transition-all duration-300 hover:scale-[1.02] hover:border-primary/60 hover:shadow-lg hover:shadow-primary/5"
               >
                 <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
                   <img 
@@ -400,7 +400,7 @@ function FeedVisual() {
     { ago: "4d", t: "Supabase Series C announced", src: "Hacker News" },
   ];
   return (
-    <div className="rounded-2xl border border-border bg-card p-2">
+    <div className="rounded-2xl border-[1.5px] border-border bg-card p-2">
       <div className="rounded-xl bg-[var(--color-surface)] p-4">
         <div className="flex items-center gap-2 pb-3 text-xs text-muted-foreground">
           <Activity className="size-3.5 text-primary" />
@@ -431,7 +431,7 @@ function FeedVisual() {
 
 function MemoryGrowthVisual() {
   return (
-    <div className="rounded-2xl border border-border bg-card p-2">
+    <div className="rounded-2xl border-[1.5px] border-border bg-card p-2">
       <div className="rounded-xl bg-[var(--color-surface)] p-5">
         <div className="flex items-center justify-between text-xs text-muted-foreground">
           <span className="inline-flex items-center gap-1.5">
@@ -462,7 +462,7 @@ function MemoryGrowthVisual() {
 
 function RecCardVisual() {
   return (
-    <div className="rounded-2xl border border-border bg-card p-2">
+    <div className="rounded-2xl border-[1.5px] border-border bg-card p-2">
       <div className="rounded-xl bg-[var(--color-surface)] p-5">
         <div className="flex items-center gap-2">
           <span className="inline-flex items-center gap-1 rounded-full bg-[color-mix(in_oklab,var(--color-threat-high)_12%,transparent)] px-2.5 py-0.5 text-xs font-medium text-[var(--color-threat-high)]">
@@ -505,7 +505,7 @@ function MemorySection() {
         </div>
 
         <div className="mx-auto mt-12 grid max-w-5xl gap-5 md:grid-cols-2">
-          <div className="rounded-2xl border border-border bg-card p-6">
+          <div className="rounded-2xl border-[1.5px] border-border bg-card p-6">
             <div className="flex items-center gap-2 text-xs text-muted-foreground">
               <span className="rounded-md bg-muted px-2 py-0.5">Day 1 — no memory</span>
             </div>
@@ -549,13 +549,13 @@ function Metrics() {
     <section className="container-x py-20">
       <div className="grid gap-6 md:grid-cols-3">
         {stats.map((s) => (
-          <div key={s.v} className="rounded-2xl border border-border bg-card p-8 text-center">
+          <div key={s.v} className="rounded-2xl border-[1.5px] border-border bg-card p-8 text-center">
             <p className="text-4xl font-semibold tracking-tight md:text-5xl">{s.v}</p>
             <p className="mt-2 text-sm text-muted-foreground">{s.l}</p>
           </div>
         ))}
       </div>
-      <figure className="mx-auto mt-10 max-w-2xl rounded-2xl border border-border bg-card p-8">
+      <figure className="mx-auto mt-10 max-w-2xl rounded-2xl border-[1.5px] border-border bg-card p-8">
         <Quote className="size-5 text-primary" />
         <blockquote className="mt-3 text-lg leading-relaxed text-foreground">
           "I used to refresh GitHub and Reddit ten times a day. Agent Arena gives me a morning

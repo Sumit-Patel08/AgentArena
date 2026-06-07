@@ -97,7 +97,7 @@ function WorkspaceSetupPage() {
         )}
 
         <div className="max-w-3xl mx-auto w-full space-y-6">
-            <div className="rounded-2xl border border-border bg-background p-6 shadow-xs">
+            <div className="rounded-2xl border-[1.5px] border-border bg-background p-6 shadow-xs">
               <h2 className="text-base font-semibold mb-4 flex items-center gap-2">
                 <Building className="size-4.5 text-primary" /> Company Profile
               </h2>
@@ -188,7 +188,7 @@ function WorkspaceSetupPage() {
                     </button>
                   </div>
 
-                  <ul className="divide-y divide-border border border-border rounded-xl bg-muted/5 overflow-hidden">
+                  <ul className="divide-y divide-border border-[1.5px] border-border rounded-xl bg-muted/5 overflow-hidden">
                     {ws.competitors.map((c) => (
                       <li key={c.id} className="p-3 text-sm flex items-center justify-between flex-wrap gap-2 hover:bg-muted/10 transition-colors">
                         <span className="font-semibold text-foreground">{c.name}</span>
@@ -207,9 +207,9 @@ function WorkspaceSetupPage() {
             </div>
 
             {discovered.length > 0 && (
-              <div className="rounded-2xl border border-border bg-background p-6 shadow-xs animate-fade-up">
+              <div className="rounded-2xl border-[1.5px] border-border bg-background p-6 shadow-xs animate-fade-up">
                 <h3 className="text-sm font-semibold mb-3">AI Discovered Candidates ({discovered.length})</h3>
-                <ul className="divide-y divide-border border border-border rounded-xl bg-muted/5 overflow-hidden">
+                <ul className="divide-y divide-border border-[1.5px] border-border rounded-xl bg-muted/5 overflow-hidden">
                   {discovered.map((c) => (
                     <li key={c.id} className="p-3 text-sm flex flex-col gap-0.5">
                       <strong className="text-foreground">{c.name}</strong>

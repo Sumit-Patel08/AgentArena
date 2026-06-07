@@ -120,7 +120,7 @@ function Dashboard() {
 
       <div className="mt-6 grid grid-cols-2 gap-3 md:grid-cols-4">
         {metrics.map((m) => (
-          <div key={m.l} className="rounded-xl border border-border bg-background p-4">
+          <div key={m.l} className="rounded-xl border-[1.5px] border-border bg-background p-4">
             <p className="text-xs text-muted-foreground">{m.l}</p>
             <p className="mt-1 text-2xl font-semibold tabular-nums">{m.v}</p>
             <p
@@ -136,7 +136,7 @@ function Dashboard() {
       </div>
 
       <div className="mt-6 grid gap-4 lg:grid-cols-3">
-        <div className="rounded-xl border border-border bg-background p-5 lg:col-span-2">
+        <div className="rounded-xl border-[1.5px] border-border bg-background p-5 lg:col-span-2">
           <div className="flex items-center justify-between">
             <h2 className="text-sm font-semibold">Signal timeline</h2>
             <span className="text-xs text-muted-foreground">{filteredSignals.length} signals</span>
@@ -149,7 +149,7 @@ function Dashboard() {
         </div>
 
         <div className="space-y-4">
-          <div className="rounded-xl border border-border bg-background p-5">
+          <div className="rounded-xl border-[1.5px] border-border bg-background p-5">
             <h2 className="text-sm font-semibold">Threats by level</h2>
             <div className="h-44">
               <ResponsiveContainer>
@@ -187,7 +187,7 @@ function Dashboard() {
             </div>
           </div>
 
-          <div className="rounded-xl border border-border bg-background p-5">
+          <div className="rounded-xl border-[1.5px] border-border bg-background p-5">
             <h2 className="text-sm font-semibold">Top movers this week</h2>
             <ul className="mt-3 space-y-2">
               {competitors.map((c) => {
@@ -274,7 +274,7 @@ function CompetitorCard({ c }: { c: Competitor }) {
     <Link
       to="/competitor/$id"
       params={{ id: c.id }}
-      className="group block rounded-xl border border-border bg-background p-4 transition-shadow hover:shadow-[0_10px_30px_-12px_rgba(40,30,90,0.18)]"
+      className="group block rounded-xl border-[1.5px] border-border bg-background p-4 transition-shadow hover:shadow-[0_10px_30px_-12px_rgba(40,30,90,0.18)]"
     >
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">

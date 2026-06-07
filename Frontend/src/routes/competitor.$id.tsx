@@ -143,7 +143,7 @@ function CompetitorDetail() {
 
           {/* Pattern Insight */}
           {(pattern || isPatternLoading) && (
-            <div className="rounded-xl border border-primary/20 bg-primary/5 p-5 shadow-sm">
+            <div className="rounded-xl border-[1.5px] border-primary/20 bg-primary/5 p-5 shadow-sm">
               <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-primary">
                 <Sparkles className={`size-4 ${isPatternLoading ? "animate-pulse text-primary/60" : ""}`} /> Pattern insight
               </div>
@@ -161,7 +161,7 @@ function CompetitorDetail() {
           {/* Grid: Events and Actions */}
           <div className="grid gap-6 lg:grid-cols-[1.6fr_1fr]">
             {/* Timeline */}
-            <div className="rounded-xl border border-border bg-card p-6 shadow-sm">
+            <div className="rounded-xl border-[1.5px] border-border bg-card p-6 shadow-sm">
               <h2 className="text-base font-bold text-foreground">Competitor Signal Timeline</h2>
               <p className="text-xs text-muted-foreground">Historical milestones and intelligence captures.</p>
               
@@ -174,7 +174,7 @@ function CompetitorDetail() {
                       <span className={`absolute -left-[20px] top-1.5 size-2.5 rounded-full border-2 border-background transition-transform group-hover:scale-125 ${
                         isHighThreat ? "bg-[var(--color-threat-high)] shadow-[0_0_8px_rgba(220,38,38,0.5)]" : "bg-primary"
                       }`} />
-                      <div className={`rounded-xl border p-4 transition-all duration-200 hover:border-primary/30 ${
+                      <div className={`rounded-xl border-[1.5px] p-4 transition-all duration-200 hover:border-primary/30 ${
                         isHighThreat 
                           ? "bg-[color-mix(in_oklab,var(--color-threat-high)_4%,transparent)] border-[color-mix(in_oklab,var(--color-threat-high)_15%,transparent)]" 
                           : "bg-muted/10 border-border"
@@ -215,7 +215,7 @@ function CompetitorDetail() {
                 return (
                   <div 
                     key={r.id} 
-                    className={`rounded-xl border p-5 shadow-sm transition-all hover:shadow-md ${
+                    className={`rounded-xl border-[1.5px] p-5 shadow-sm transition-all hover:shadow-md ${
                       isHigh 
                         ? "border-[color-mix(in_oklab,var(--color-threat-high)_30%,transparent)] bg-gradient-to-br from-card to-[color-mix(in_oklab,var(--color-threat-high)_4%,transparent)]" 
                         : "border-border bg-card"
@@ -254,7 +254,7 @@ function CompetitorDetail() {
       {tab === "intel" && (
         <div className="mt-6 grid gap-6 md:grid-cols-2">
           {/* Competitor Profile Info */}
-          <div className="rounded-xl border border-border bg-gradient-to-b from-card to-muted/10 p-6 shadow-sm">
+          <div className="rounded-xl border-[1.5px] border-border bg-gradient-to-b from-card to-muted/10 p-6 shadow-sm">
             <h2 className="text-lg font-bold text-foreground">Competitor Profile</h2>
             <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
               {competitor.description}
@@ -309,28 +309,28 @@ function CompetitorDetail() {
           </div>
 
           {/* Scraper Configuration details */}
-          <div className="rounded-xl border border-border bg-card p-6 shadow-sm">
+          <div className="rounded-xl border-[1.5px] border-border bg-card p-6 shadow-sm">
             <h2 className="text-lg font-bold text-foreground">Intelligence Scrapers</h2>
             <p className="mt-1 text-xs text-muted-foreground leading-normal">
               Active ingestion scrapers and endpoints monitored for {competitor.name}.
             </p>
 
             <div className="mt-5 space-y-3">
-              <div className="rounded-lg border border-border bg-muted/20 p-3.5">
+              <div className="rounded-lg border-[1.5px] border-border bg-muted/20 p-3.5">
                 <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Regulatory Press RSS</span>
                 <p className="mt-1 text-xs font-semibold text-foreground leading-relaxed">
                   Ingesting corporate news feeds, regulatory warnings, product announcements, and press logs.
                 </p>
               </div>
 
-              <div className="rounded-lg border border-border bg-muted/20 p-3.5">
+              <div className="rounded-lg border-[1.5px] border-border bg-muted/20 p-3.5">
                 <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Social Sentiment Indices</span>
                 <p className="mt-1 text-xs font-semibold text-foreground leading-relaxed">
                   Scanning Reddit discussions and Hacker News threads for industry conversations and threat indicators.
                 </p>
               </div>
 
-              <div className="rounded-lg border border-border bg-muted/20 p-3.5">
+              <div className="rounded-lg border-[1.5px] border-border bg-muted/20 p-3.5">
                 <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Global Registry Feeds</span>
                 <p className="mt-1 text-xs font-semibold text-foreground leading-relaxed">
                   Indexing patent applications, licensing registrations, and international drug directory updates.

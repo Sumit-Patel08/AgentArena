@@ -101,7 +101,7 @@ function CompetitorsList() {
               key={c.id}
               to="/competitor/$id"
               params={{ id: c.id }}
-              className="group relative flex flex-col justify-between rounded-xl border border-border bg-gradient-to-b from-card to-muted/10 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-[0_12px_24px_-8px_rgba(91,75,214,0.12)]"
+              className="group relative flex flex-col justify-between rounded-xl border-[1.5px] border-border bg-gradient-to-b from-card to-muted/10 p-5 transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-[0_12px_24px_-8px_rgba(91,75,214,0.12)]"
             >
               <div>
                 <div className="flex items-start justify-between gap-2">
