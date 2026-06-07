@@ -58,11 +58,11 @@ export function Nav() {
           })}
         </nav>
         <div className="hidden items-center gap-3 md:flex">
-          <Link to="/dashboard" className="text-sm text-muted-foreground hover:text-foreground">
+          <Link to="/login" className="text-sm text-muted-foreground hover:text-foreground">
             Log in
           </Link>
           <Link
-            to="/dashboard"
+            to="/login"
             className="inline-flex h-9 items-center rounded-lg bg-primary px-3.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
           >
             Get started
@@ -90,7 +90,7 @@ export function Nav() {
               </Link>
             ))}
             <Link
-              to="/dashboard"
+              to="/login"
               onClick={() => setOpen(false)}
               className="mt-2 inline-flex h-10 items-center justify-center rounded-lg bg-primary px-3.5 text-sm font-medium text-primary-foreground"
             >

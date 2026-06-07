@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { LayoutGrid, Users, Lightbulb, Brain, Settings, Play, Loader2 } from "lucide-react";
+import { LayoutGrid, Users, Lightbulb, Brain, Settings, Play, Loader2, Layers } from "lucide-react";
 import { Logo } from "@/components/site/Logo";
 import { api } from "@/lib/api";
 import { cn } from "@/lib/utils";
@@ -18,6 +18,7 @@ const nav: NavItem[] = [
   { to: "/competitors", label: "Competitors", icon: Users, match: "/competitor" },
   { to: "/recommendations", label: "Recommendations", icon: Lightbulb },
   { to: "/memory", label: "Memory", icon: Brain },
+  { to: "/workspace", label: "Workspace", icon: Layers },
   { to: "/settings", label: "Settings", icon: Settings },
 ];
 

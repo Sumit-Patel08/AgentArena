@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as WorkspaceRouteImport } from './routes/workspace'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as RecommendationsRouteImport } from './routes/recommendations'
@@ -21,6 +22,11 @@ import { Route as CompetitorsRouteImport } from './routes/competitors'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CompetitorIdRouteImport } from './routes/competitor.$id'
 
+const WorkspaceRoute = WorkspaceRouteImport.update({
+  id: '/workspace',
+  path: '/workspace',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
@@ -88,6 +94,7 @@ export interface FileRoutesByFullPath {
   '/recommendations': typeof RecommendationsRoute
   '/settings': typeof SettingsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/workspace': typeof WorkspaceRoute
   '/competitor/$id': typeof CompetitorIdRoute
 }
 export interface FileRoutesByTo {
@@ -101,6 +108,7 @@ export interface FileRoutesByTo {
   '/recommendations': typeof RecommendationsRoute
   '/settings': typeof SettingsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/workspace': typeof WorkspaceRoute
   '/competitor/$id': typeof CompetitorIdRoute
 }
 export interface FileRoutesById {
@@ -115,6 +123,7 @@ export interface FileRoutesById {
   '/recommendations': typeof RecommendationsRoute
   '/settings': typeof SettingsRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/workspace': typeof WorkspaceRoute
   '/competitor/$id': typeof CompetitorIdRoute
 }
 export interface FileRouteTypes {
@@ -130,6 +139,7 @@ export interface FileRouteTypes {
     | '/recommendations'
     | '/settings'
     | '/sitemap.xml'
+    | '/workspace'
     | '/competitor/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -143,6 +153,7 @@ export interface FileRouteTypes {
     | '/recommendations'
     | '/settings'
     | '/sitemap.xml'
+    | '/workspace'
     | '/competitor/$id'
   id:
     | '__root__'
@@ -156,6 +167,7 @@ export interface FileRouteTypes {
     | '/recommendations'
     | '/settings'
     | '/sitemap.xml'
+    | '/workspace'
     | '/competitor/$id'
   fileRoutesById: FileRoutesById
 }
@@ -170,11 +182,19 @@ export interface RootRouteChildren {
   RecommendationsRoute: typeof RecommendationsRoute
   SettingsRoute: typeof SettingsRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  WorkspaceRoute: typeof WorkspaceRoute
   CompetitorIdRoute: typeof CompetitorIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/workspace': {
+      id: '/workspace'
+      path: '/workspace'
+      fullPath: '/workspace'
+      preLoaderRoute: typeof WorkspaceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sitemap.xml': {
       id: '/sitemap.xml'
       path: '/sitemap.xml'
@@ -266,6 +286,7 @@ const rootRouteChildren: RootRouteChildren = {
   RecommendationsRoute: RecommendationsRoute,
   SettingsRoute: SettingsRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  WorkspaceRoute: WorkspaceRoute,
   CompetitorIdRoute: CompetitorIdRoute,
 }
 export const routeTree = rootRouteImport
