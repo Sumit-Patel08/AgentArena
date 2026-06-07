@@ -113,6 +113,55 @@ User website → Groq discovers rivals → GitHub / Reddit / HN collection
 
 ---
 
+## UI Screenshots
+
+### Landing Page
+Marketing homepage with hero, value proposition, and dashboard preview.
+
+![Landing Page](docs/screenshots/01-landing-page.png)
+
+### Live Signal Stream
+Real-time competitor events parsed and analyzed by the agent.
+
+![Live Signal Stream](docs/screenshots/02-live-signal-stream.png)
+
+### Core Technology
+Four pillars: Continuous Monitoring, AI Intel Engine, Persistent Memory, and Actionable Plays.
+
+![Core Technology](docs/screenshots/03-core-technology.png)
+
+### Dashboard Overview
+Metrics, signal timeline, threat breakdown, and top movers for tracked competitors.
+
+![Dashboard Overview](docs/screenshots/04-dashboard-overview.png)
+
+### Competitors
+Discovered rivals with threat levels, activity trends, and intel center links.
+
+![Competitors](docs/screenshots/05-competitors.png)
+
+### Recommendations
+Actionable plays ranked by priority, reasoned from Hindsight memory.
+
+![Recommendations](docs/screenshots/06-recommendations.png)
+
+### Memory Chat
+Hindsight + Groq RAG chat with memory on/off toggle and cited sources.
+
+![Memory Chat](docs/screenshots/07-memory-chat.png)
+
+### Workspace Setup
+Company profile and tracked competitors after AI discovery.
+
+![Workspace Setup](docs/screenshots/08-workspace-setup.png)
+
+### Settings & Profile
+Account management, notification preferences, and workspace identity.
+
+![Settings Profile](docs/screenshots/09-settings-profile.png)
+
+---
+
 ## Project Structure
 
 ```
@@ -139,6 +188,7 @@ AgentArena/
 │   ├── src/lib/api.ts       # Backend API client
 │   ├── src/components/      # UI components
 │   └── .env.example
+├── docs/screenshots/        # UI screenshots for README
 └── README.md
 ```
 
@@ -150,7 +200,7 @@ Frontend - https://agent-arena-murex.vercel.app/
 Backend - https://agentarena-a561.onrender.com
 
 
-## Setup Instructions
+## Setup Instructions (For Local Host)
 
 ### Prerequisites
 - **Python 3.11+**
