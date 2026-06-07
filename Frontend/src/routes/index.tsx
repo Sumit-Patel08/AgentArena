@@ -344,20 +344,20 @@ function CorePillars() {
   ];
 
   return (
-    <section className="bg-neutral-950 py-24 text-white relative overflow-hidden">
+    <section className="bg-background py-24 relative overflow-hidden border-y border-border/40">
       {/* Background Radial Glow */}
       <div 
-        className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_center,rgba(91,75,214,0.15),transparent_60%)]"
+        className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_center,rgba(91,75,214,0.04),transparent_60%)]"
       />
       <div className="container-x">
         <div className="mx-auto max-w-2xl text-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-orange-400 bg-orange-500/10 px-3 py-1 rounded-full inline-block">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary bg-primary/10 px-3 py-1 rounded-full inline-block">
             Core Technology
           </p>
-          <h2 className="mt-4 text-3xl font-bold tracking-tight md:text-5xl text-white">
+          <h2 className="mt-4 text-3xl font-bold tracking-tight md:text-5xl text-foreground">
             How Agent Arena Empowers Your Team
           </h2>
-          <p className="mt-4 text-neutral-400 max-w-lg mx-auto">
+          <p className="mt-4 text-muted-foreground max-w-lg mx-auto">
             Four key pillars of competitive agent intelligence that keep you steps ahead of the competition.
           </p>
         </div>
@@ -368,16 +368,16 @@ function CorePillars() {
             return (
               <div 
                 key={i}
-                className="group relative p-[1px] bg-gradient-to-b from-red-500 via-orange-500 to-yellow-500 rounded-[28px] transition-all duration-300 hover:shadow-[0_0_30px_rgba(249,115,22,0.25)] hover:scale-[1.02]"
+                className="group relative p-[1px] bg-gradient-to-b from-border via-border/50 to-border/20 rounded-[28px] transition-all duration-300 hover:bg-gradient-to-b hover:from-primary/30 hover:via-primary/20 hover:to-primary/5 hover:shadow-lg hover:shadow-primary/5 hover:scale-[1.02]"
               >
-                <div className="bg-neutral-950 rounded-[27px] p-8 h-full flex flex-col items-center text-center">
-                  <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-white/10 group-hover:scale-110 transition-transform duration-300">
-                    <Icon className="size-6 text-black" strokeWidth={2.5} />
+                <div className="bg-card rounded-[27px] p-8 h-full flex flex-col items-center text-center">
+                  <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 text-primary group-hover:scale-110 transition-transform duration-300">
+                    <Icon className="size-6 text-primary" strokeWidth={2} />
                   </div>
-                  <h3 className="text-sm font-bold tracking-[0.15em] text-orange-400 uppercase mb-3">
+                  <h3 className="text-sm font-bold tracking-[0.15em] text-foreground uppercase mb-3 group-hover:text-primary transition-colors">
                     {p.title}
                   </h3>
-                  <p className="text-sm text-neutral-300 leading-relaxed font-normal">
+                  <p className="text-sm text-muted-foreground leading-relaxed font-normal">
                     {p.description}
                   </p>
                 </div>
