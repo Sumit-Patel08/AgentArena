@@ -40,6 +40,12 @@ def get_recommendations() -> list[dict[str, Any]]:
         return list(recommendations_store)
 
 
+def set_recommendations(recs: list[dict[str, Any]]) -> None:
+    with _lock:
+        recommendations_store.clear()
+        recommendations_store.extend(recs)
+
+
 def source_url_exists(source_url: str) -> bool:
     with _lock:
         return any(s.get("source_url") == source_url for s in signals_store)

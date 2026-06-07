@@ -21,6 +21,13 @@ logger = logging.getLogger(__name__)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    from store import signals_store
+    from seed import load_store_from_seed
+
+    if not signals_store:
+        loaded = load_store_from_seed()
+        logger.info("Loaded %s seed signals into store on startup", loaded)
+
     start_scheduler()
     logger.info("Agent Arena backend started")
     yield
