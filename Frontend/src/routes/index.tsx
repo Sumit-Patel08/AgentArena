@@ -12,6 +12,7 @@ import {
   Sparkles,
   CheckCircle2,
   Quote,
+  Database,
 } from "lucide-react";
 
 export const Route = createFileRoute("/")({
@@ -42,6 +43,7 @@ function Landing() {
       <ArenaShowcase />
       <Problem />
       <Features />
+      <CorePillars />
       <MemorySection />
       <Metrics />
       <FinalCTA />
@@ -187,10 +189,10 @@ function TrustBar() {
 function ArenaShowcase() {
   const items = [
     {
-      title: "Supabase GA Vector Search",
-      description: "Launched native vector database capabilities (pgvector) in GA, directly targeting AI-native application architectures.",
-      imageSrc: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=600&q=80",
-      threat: 8,
+      title: "Vercel v0 Generative UI",
+      description: "Launched v0.dev in public beta, allowing developers to generate and deploy React + Tailwind components with simple text prompts.",
+      imageSrc: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&w=600&q=80",
+      threat: 9,
     },
     {
       title: "PocketBase Realtime Sync",
@@ -209,7 +211,7 @@ function ArenaShowcase() {
   return (
     <section className="container-x py-16">
       <div className="text-center max-w-2xl mx-auto mb-10">
-        <p className="text-xs font-medium uppercase tracking-[0.18em] text-primary">Live Tracking</p>
+        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">Live Signal Stream</p>
         <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">
           Inside the Agent Arena
         </h2>
@@ -313,6 +315,77 @@ function Features() {
           <div>{it.visual}</div>
         </div>
       ))}
+    </section>
+  );
+}
+
+function CorePillars() {
+  const pillars = [
+    {
+      icon: Activity,
+      title: "Continuous Monitoring",
+      description: "Watches GitHub releases, Hacker News, Reddit, and competitor blogs 24/7. Never miss a single release, announcement, or community thread.",
+    },
+    {
+      icon: Brain,
+      title: "AI Intel Engine",
+      description: "Automatically parses logs, commits, and discussions to analyze competitor strategy, feature drops, and product announcements.",
+    },
+    {
+      icon: Database,
+      title: "Persistent Memory",
+      description: "Saves every signal as a structured profile history, comparing new activities to trace roadmap evolution over weeks and months.",
+    },
+    {
+      icon: Sparkles,
+      title: "Actionable Plays",
+      description: "Recommends ranked tactical responses to rival moves, so you can adapt your marketing, pricing, or codebase in minutes.",
+    },
+  ];
+
+  return (
+    <section className="bg-neutral-950 py-24 text-white relative overflow-hidden">
+      {/* Background Radial Glow */}
+      <div 
+        className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_center,rgba(91,75,214,0.15),transparent_60%)]"
+      />
+      <div className="container-x">
+        <div className="mx-auto max-w-2xl text-center">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-orange-400 bg-orange-500/10 px-3 py-1 rounded-full inline-block">
+            Core Technology
+          </p>
+          <h2 className="mt-4 text-3xl font-bold tracking-tight md:text-5xl text-white">
+            How Agent Arena Empowers Your Team
+          </h2>
+          <p className="mt-4 text-neutral-400 max-w-lg mx-auto">
+            Four key pillars of competitive agent intelligence that keep you steps ahead of the competition.
+          </p>
+        </div>
+
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 max-w-7xl mx-auto mt-16">
+          {pillars.map((p, i) => {
+            const Icon = p.icon;
+            return (
+              <div 
+                key={i}
+                className="group relative p-[1px] bg-gradient-to-b from-red-500 via-orange-500 to-yellow-500 rounded-[28px] transition-all duration-300 hover:shadow-[0_0_30px_rgba(249,115,22,0.25)] hover:scale-[1.02]"
+              >
+                <div className="bg-neutral-950 rounded-[27px] p-8 h-full flex flex-col items-center text-center">
+                  <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-white/10 group-hover:scale-110 transition-transform duration-300">
+                    <Icon className="size-6 text-black" strokeWidth={2.5} />
+                  </div>
+                  <h3 className="text-sm font-bold tracking-[0.15em] text-orange-400 uppercase mb-3">
+                    {p.title}
+                  </h3>
+                  <p className="text-sm text-neutral-300 leading-relaxed font-normal">
+                    {p.description}
+                  </p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
     </section>
   );
 }
