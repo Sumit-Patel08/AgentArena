@@ -322,22 +322,22 @@ function Features() {
 function CorePillars() {
   const pillars = [
     {
-      icon: Activity,
+      image: "/Continuous Monitoring.png",
       title: "Continuous Monitoring",
       description: "Watches GitHub releases, Hacker News, Reddit, and competitor blogs 24/7. Never miss a single release, announcement, or community thread.",
     },
     {
-      icon: Brain,
+      image: "/AI Intel Engine.png",
       title: "AI Intel Engine",
       description: "Automatically parses logs, commits, and discussions to analyze competitor strategy, feature drops, and product announcements.",
     },
     {
-      icon: Database,
+      image: "/Persistent Memory.png",
       title: "Persistent Memory",
       description: "Saves every signal as a structured profile history, comparing new activities to trace roadmap evolution over weeks and months.",
     },
     {
-      icon: Sparkles,
+      image: "/Actionable Plays.png",
       title: "Actionable Plays",
       description: "Recommends ranked tactical responses to rival moves, so you can adapt your marketing, pricing, or codebase in minutes.",
     },
@@ -364,23 +364,25 @@ function CorePillars() {
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4 max-w-7xl mx-auto mt-16">
           {pillars.map((p, i) => {
-            const Icon = p.icon;
             return (
               <div 
                 key={i}
-                className="group relative p-[1px] bg-gradient-to-b from-border via-border/50 to-border/20 rounded-[28px] transition-all duration-300 hover:bg-gradient-to-b hover:from-primary/30 hover:via-primary/20 hover:to-primary/5 hover:shadow-lg hover:shadow-primary/5 hover:scale-[1.02]"
+                className="group bg-card rounded-[28px] border border-primary/25 p-8 h-full flex flex-col items-center text-center transition-all duration-300 hover:scale-[1.02] hover:border-primary/50 hover:shadow-lg hover:shadow-primary/5"
               >
-                <div className="bg-card rounded-[27px] p-8 h-full flex flex-col items-center text-center">
-                  <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 text-primary group-hover:scale-110 transition-transform duration-300">
-                    <Icon className="size-6 text-primary" strokeWidth={2} />
-                  </div>
-                  <h3 className="text-sm font-bold tracking-[0.15em] text-foreground uppercase mb-3 group-hover:text-primary transition-colors">
-                    {p.title}
-                  </h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed font-normal">
-                    {p.description}
-                  </p>
+                <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                  <img 
+                    src={p.image} 
+                    alt={p.title} 
+                    className="size-7 object-contain" 
+                    style={{ filter: "invert(29%) sepia(85%) saturate(1637%) hue-rotate(224deg) brightness(91%) contrast(90%)" }}
+                  />
                 </div>
+                <h3 className="text-sm font-bold tracking-[0.15em] text-foreground uppercase mb-3 group-hover:text-primary transition-colors">
+                  {p.title}
+                </h3>
+                <p className="text-sm text-muted-foreground leading-relaxed font-normal">
+                  {p.description}
+                </p>
               </div>
             );
           })}

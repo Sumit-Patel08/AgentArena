@@ -9,8 +9,7 @@ import {
   Check, 
   AlertCircle,
   Globe,
-  Mail,
-  Server
+  Mail
 } from "lucide-react";
 import { AppShell } from "@/components/app/AppShell";
 import { API_BASE_URL, api, type WorkspaceCompetitor } from "@/lib/api";
@@ -97,9 +96,7 @@ function WorkspaceSetupPage() {
           </div>
         )}
 
-        <div className="grid gap-6 md:grid-cols-3">
-          {/* Main workspace settings card */}
-          <div className="md:col-span-2 space-y-6">
+        <div className="max-w-3xl mx-auto w-full space-y-6">
             <div className="rounded-2xl border border-border bg-background p-6 shadow-xs">
               <h2 className="text-base font-semibold mb-4 flex items-center gap-2">
                 <Building className="size-4.5 text-primary" /> Company Profile
@@ -223,42 +220,6 @@ function WorkspaceSetupPage() {
               </div>
             )}
           </div>
-
-          {/* Connection sidebar card */}
-          <div className="space-y-6">
-            <div className="rounded-2xl border border-border bg-background p-6 shadow-xs">
-              <h2 className="text-base font-semibold mb-4 flex items-center gap-2">
-                <Server className="size-4.5 text-primary" /> API Connection
-              </h2>
-
-              <div className="space-y-4">
-                <div className="space-y-1">
-                  <p className="text-xs font-semibold text-muted-foreground">Backend Host URL</p>
-                  <p className="font-mono text-xs bg-muted/40 p-2 rounded-lg border border-border break-all">{API_BASE_URL}</p>
-                </div>
-
-                <div className="space-y-1">
-                  <p className="text-xs font-semibold text-muted-foreground">Server Connection</p>
-                  <span className={`inline-flex items-center gap-1.5 text-xs font-semibold px-2.5 py-1 rounded-full ${
-                    isHealthError ? "bg-destructive/10 text-destructive" : "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/20"
-                  }`}>
-                    <span className={`size-1.5 rounded-full ${isHealthError ? "bg-destructive" : "bg-emerald-500"}`} />
-                    {isHealthError ? "Offline" : "Connected"}
-                  </span>
-                </div>
-
-                <div className="border-t border-border pt-4 text-xs text-muted-foreground space-y-2">
-                  <p>
-                    Ensure your backend remains active on port 8000 for scrapers and AI signals to populate.
-                  </p>
-                  <p>
-                    Vector intelligence queries will be billed directly to Pied Piper Tech workspace credits.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </AppShell>
   );

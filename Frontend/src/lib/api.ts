@@ -27,6 +27,7 @@ export interface Competitor {
   trackingSince: string;
   threat: number;
   history: { week: string; threat: number; signals: number }[];
+  website?: string;
 }
 
 export interface Recommendation {
@@ -90,6 +91,7 @@ type BackendCompetitorSummary = {
   stars_delta_week: number;
   last_signal_date: string;
   sparkline: number[];
+  website?: string;
 };
 
 type BackendCompetitorDetail = BackendCompetitorSummary & {
@@ -138,6 +140,7 @@ function mapCompetitor(c: BackendCompetitorSummary | BackendCompetitorDetail): C
     starsDelta: c.stars_delta_week,
     trackingSince: "tracking_since" in c ? c.tracking_since : "",
     threat: c.threat_score,
+    website: c.website || "",
     history: c.sparkline.map((threat, i) => ({
       week: `W${i + 1}`,
       threat,
@@ -217,8 +220,8 @@ export const api = {
 
   patternFor: async (id: string): Promise<string | null> => {
     try {
-      const data = await fetchJson<BackendCompetitorDetail>(`/api/competitors/${id}`);
-      return data.pattern_insight || null;
+      const data = await fetchJson<{ pattern: string }>(`/api/competitors/${id}/pattern`);
+      return data.pattern || null;
     } catch {
       return null;
     }

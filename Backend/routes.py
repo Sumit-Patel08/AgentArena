@@ -53,6 +53,30 @@ _rec_cache: list[dict] = []
 _rec_cache_at: float = 0.0
 _pattern_cache: dict[str, tuple[float, str]] = {}
 
+from pathlib import Path
+import json
+
+DATA_DIR = Path(__file__).parent / "data"
+PATTERNS_FILE = DATA_DIR / "patterns.json"
+
+def _load_patterns_cache() -> None:
+    if PATTERNS_FILE.exists():
+        try:
+            data = json.loads(PATTERNS_FILE.read_text(encoding="utf-8"))
+            for cid, pat in data.items():
+                _pattern_cache[cid] = (time.time(), pat)
+        except Exception:
+            pass
+
+def _save_patterns_cache() -> None:
+    try:
+        data = {cid: val[1] for cid, val in _pattern_cache.items()}
+        PATTERNS_FILE.write_text(json.dumps(data, indent=2), encoding="utf-8")
+    except Exception:
+        pass
+
+_load_patterns_cache()
+
 MEMORY_CHAT_SYSTEM = """You are a competitive intelligence analyst for Agent Arena.
 You have access to 6 weeks of historical memory about competitor activity.
 Answer the user question using ONLY the provided memory entries.
@@ -111,6 +135,7 @@ async def list_competitors() -> list[CompetitorSummary]:
                 stars_delta_week=0,
                 last_signal_date=last_date,
                 sparkline=sparkline,
+                website=comp.get("website", ""),
             )
         )
     return summaries
@@ -122,31 +147,52 @@ async def _get_pattern_insight(competitor_name: str, competitor_id: str) -> str:
     if cached and now - cached[0] < _PATTERN_CACHE_TTL:
         return cached[1]
 
-    memories = await recall_async(f"{competitor_name} pattern trend", k=5)
-    top = memories[:3]
+    # Retrieve more memories to filter out cross-contaminated matches
+    memories = await recall_async(f"{competitor_name} pattern trend", k=20)
+    top = [
+        m for m in memories
+        if m.get("competitor", "").lower() in (competitor_id.lower(), competitor_name.lower())
+    ][:5]
+
+    # Fallback: if no Hindsight memories match this competitor, use local store signals
     if not top:
-        insight = "No pattern insight yet — run seed or collection."
+        local_signals = get_signals(competitor=competitor_id, limit=10)
+        if local_signals:
+            top = [
+                {
+                    "date": s.get("date", ""),
+                    "competitor": s.get("competitor", ""),
+                    "threat_score": s.get("threat_score", 5),
+                    "text": s.get("summary", ""),
+                }
+                for s in local_signals
+            ]
+
+    if not top:
+        insight = f"Monitoring active for {competitor_name}. Gathering initial scraper feeds and strategic signals."
         _pattern_cache[competitor_id] = (now, insight)
+        _save_patterns_cache()
         return insight
 
     context = format_memory_block(top)
     try:
         insight = await groq_complete(
             PATTERN_SYSTEM,
-            f"Competitor: {competitor_name}\n\nMemories:\n{context}",
+            f"Competitor: {competitor_name}\n\nMemories/Signals:\n{context}",
             temperature=0.2,
             max_tokens=400,
         )
         insight = insight.strip()[:400]
         if not insight:
             insight = (
-                f"{competitor_name} shows a recurring pattern of AI-feature launches "
-                f"followed by community pricing concerns across multiple weeks."
+                f"{competitor_name} has shown key updates and announcements over the recent weeks, "
+                f"resulting in moderate market movement and threat adjustments."
             )
     except Exception:
-        insight = top[0].get("text", "")[:200]
+        insight = top[0].get("text", top[0].get("summary", ""))[:200]
 
     _pattern_cache[competitor_id] = (now, insight)
+    _save_patterns_cache()
     return insight
 
 
@@ -162,7 +208,8 @@ async def get_competitor(competitor_id: str) -> CompetitorDetail:
     threat_score = max(threat_scores) if threat_scores else 5
     last_date = signals[0]["date"] if signals else ""
 
-    pattern_insight = await _get_pattern_insight(comp["name"], competitor_id)
+    cached = _pattern_cache.get(competitor_id)
+    pattern_insight = cached[1] if cached else ""
 
     comp_recs = [
         Recommendation(**r)
@@ -178,6 +225,7 @@ async def get_competitor(competitor_id: str) -> CompetitorDetail:
         stars_delta_week=0,
         last_signal_date=last_date,
         sparkline=_compute_sparkline(signals),
+        website=comp.get("website", ""),
         tracking_since="2025-04-22",
         threat_over_time=[
             ThreatPoint(date=s["date"], score=int(s.get("threat_score", 5)))
@@ -187,6 +235,15 @@ async def get_competitor(competitor_id: str) -> CompetitorDetail:
         pattern_insight=pattern_insight,
         recommendations=comp_recs,
     )
+
+
+@router.get("/competitors/{competitor_id}/pattern")
+async def get_competitor_pattern(competitor_id: str) -> dict:
+    comp = get_competitor_by_id(competitor_id)
+    if comp is None:
+        raise HTTPException(status_code=404, detail="Competitor not found")
+    pattern = await _get_pattern_insight(comp["name"], competitor_id)
+    return {"pattern": pattern}
 
 
 @router.get("/metrics", response_model=Metrics)
@@ -360,6 +417,11 @@ async def workspace_setup(body: WorkspaceSetupRequest) -> WorkspaceResponse:
 
     if body.run_collection:
         await run_collection_pipeline()
+
+    from store import signals_store
+    if not signals_store:
+        from seed import seed_workspace_competitors
+        await seed_workspace_competitors(load_workspace())
 
     return _workspace_response()
 

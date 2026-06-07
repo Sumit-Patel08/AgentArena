@@ -49,6 +49,7 @@ class CompetitorSummary(BaseModel):
     stars_delta_week: int
     last_signal_date: str
     sparkline: list[int] = Field(min_length=6, max_length=6)
+    website: str = ""
 
 
 class Recommendation(BaseModel):
