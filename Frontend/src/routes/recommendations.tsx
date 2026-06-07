@@ -9,7 +9,7 @@ import { api, type Recommendation } from "@/lib/api";
 export const Route = createFileRoute("/recommendations")({
   head: () => ({
     meta: [
-      { title: "Recommendations — Nazar" },
+      { title: "Recommendations — Agent Arena" },
       { name: "description", content: "What to do next, ranked by impact." },
     ],
   }),
@@ -38,7 +38,7 @@ function Recs() {
       <p className="text-xs uppercase tracking-wider text-muted-foreground">Action Center</p>
       <h1 className="mt-1 text-2xl font-semibold tracking-tight">What to do next.</h1>
       <p className="mt-2 max-w-xl text-sm text-muted-foreground">
-        Ranked by impact, based on everything Nazar has learned about your competitors.
+        Ranked by impact, based on everything Agent Arena has learned about your competitors.
       </p>
 
       <div className="mt-6 space-y-3">
@@ -53,7 +53,7 @@ function Recs() {
         ))}
         {open.length === 0 && (
           <div className="rounded-xl border border-dashed border-border p-8 text-center text-sm text-muted-foreground">
-            All caught up. Nazar will surface new actions as patterns emerge.
+            All caught up. Agent Arena will surface new actions as patterns emerge.
           </div>
         )}
       </div>

@@ -10,7 +10,7 @@ export function AnnouncementBar() {
         <p className="flex items-center gap-2 text-xs sm:text-sm">
           <Sparkles className="size-3.5" />
           <span>
-            New: Nazar now remembers 6 weeks of competitor history →{" "}
+            New: Agent Arena now remembers 6 weeks of competitor history →{" "}
             <a href="#" className="font-medium underline-offset-4 hover:underline">
               Read more
             </a>

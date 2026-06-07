@@ -5,13 +5,13 @@ import { Eye, Brain, Database, Network, Lightbulb, ArrowRight } from "lucide-rea
 export const Route = createFileRoute("/how-it-works")({
   head: () => ({
     meta: [
-      { title: "How Nazar thinks — from raw noise to a recommended action" },
+      { title: "How Agent Arena thinks — from raw noise to a recommended action" },
       {
         name: "description",
         content:
-          "The five steps Nazar takes — watch, understand, remember, connect, recommend — explained in plain English.",
+          "The five steps Agent Arena takes — watch, understand, remember, connect, recommend — explained in plain English.",
       },
-      { property: "og:title", content: "How Nazar thinks" },
+      { property: "og:title", content: "How Agent Arena thinks" },
       { property: "og:description", content: "From raw noise to a recommended action, in five steps." },
     ],
   }),
@@ -23,7 +23,7 @@ const steps = [
     icon: Eye,
     title: "Watch",
     body:
-      "Nazar collects signals from GitHub releases, Reddit, Hacker News, Discord, and competitor blogs on a continuous schedule. Nothing slips through.",
+      "Agent Arena collects signals from GitHub releases, Reddit, Hacker News, Discord, and competitor blogs on a continuous schedule. Nothing slips through.",
     visual: "Sources connected: GitHub, Reddit, HN, Discord, Blogs",
   },
   {
@@ -44,14 +44,14 @@ const steps = [
     icon: Network,
     title: "Connect",
     body:
-      "When something new happens, Nazar recalls similar past events and detects the pattern — so a single release becomes part of a six-week story.",
+      "When something new happens, Agent Arena recalls similar past events and detects the pattern — so a single release becomes part of a six-week story.",
     visual: "Retrieval · pattern matching",
   },
   {
     icon: Lightbulb,
     title: "Recommend",
     body:
-      "Finally, Nazar tells you what to do next — ranked by impact, with the reasoning shown so you understand why and decide in minutes.",
+      "Finally, Agent Arena tells you what to do next — ranked by impact, with the reasoning shown so you understand why and decide in minutes.",
     visual: "Ranked actions · with reasoning",
   },
 ];
@@ -62,7 +62,7 @@ function HowItWorks() {
       <section className="container-x pt-20 pb-10 text-center">
         <p className="text-xs font-medium uppercase tracking-[0.18em] text-primary">The pipeline</p>
         <h1 className="mx-auto mt-3 max-w-3xl text-4xl font-semibold tracking-tight md:text-5xl">
-          How Nazar thinks.
+          How Agent Arena thinks.
         </h1>
         <p className="mx-auto mt-4 max-w-xl text-muted-foreground">
           From raw noise to a recommended action — in five steps.

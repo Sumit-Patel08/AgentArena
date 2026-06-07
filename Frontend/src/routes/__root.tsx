@@ -77,13 +77,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Nazar — The watchful eye for your competition" },
+      { title: "Agent Arena — The ultimate arena for competitive intelligence" },
       {
         name: "description",
         content:
-          "Nazar watches every competitor across GitHub, Reddit, and the web, remembers everything, and tells you exactly what to do next.",
+          "Agent Arena watches every competitor across GitHub, Reddit, and the web, remembers everything, and tells you exactly what to do next.",
       },
-      { property: "og:title", content: "Nazar — Competitive intelligence on autopilot" },
+      { property: "og:title", content: "Agent Arena — Competitive intelligence on autopilot" },
       {
         property: "og:description",
         content:

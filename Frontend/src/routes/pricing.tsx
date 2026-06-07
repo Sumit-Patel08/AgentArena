@@ -6,13 +6,13 @@ import { useState } from "react";
 export const Route = createFileRoute("/pricing")({
   head: () => ({
     meta: [
-      { title: "Pricing — Nazar" },
+      { title: "Pricing — Agent Arena" },
       {
         name: "description",
         content:
           "Simple pricing for solo developers and small teams. Free forever for hobby projects.",
       },
-      { property: "og:title", content: "Nazar pricing" },
+      { property: "og:title", content: "Agent Arena pricing" },
       { property: "og:description", content: "Simple pricing. Serious advantage." },
     ],
   }),
@@ -76,10 +76,10 @@ const compareRows = [
 const faqs = [
   {
     q: "How does the memory work?",
-    a: "Every signal Nazar collects is embedded and stored alongside its metadata. When a new event arrives, Nazar retrieves the most similar past events and uses that context to score and explain what's happening.",
+    a: "Every signal Agent Arena collects is embedded and stored alongside its metadata. When a new event arrives, Agent Arena retrieves the most similar past events and uses that context to score and explain what's happening.",
   },
   {
-    q: "Which sources does Nazar watch?",
+    q: "Which sources does Agent Arena watch?",
     a: "GitHub releases and stars, Reddit, Hacker News, public Discord servers, and competitor blogs. We're adding LinkedIn job posts and Product Hunt next.",
   },
   {
@@ -105,7 +105,7 @@ function Pricing() {
           Simple pricing. Serious advantage.
         </h1>
         <p className="mx-auto mt-4 max-w-xl text-muted-foreground">
-          Start free. Upgrade when Nazar pays for itself — usually in the first week.
+          Start free. Upgrade when Agent Arena pays for itself — usually in the first week.
         </p>
       </section>
 

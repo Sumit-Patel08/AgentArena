@@ -24,7 +24,7 @@ export function Footer() {
           <div>
             <Logo />
             <p className="mt-3 max-w-xs text-sm text-muted-foreground">
-              The watchful eye for your competition.
+              The ultimate arena for competitive agent intelligence.
             </p>
             <div className="mt-4 flex items-center gap-2">
               {[Github, Twitter, Linkedin].map((Icon, i) => (
@@ -55,7 +55,7 @@ export function Footer() {
           ))}
         </div>
         <div className="mt-10 flex flex-col gap-2 border-t border-border pt-6 text-xs text-muted-foreground md:flex-row md:items-center md:justify-between">
-          <p>© {new Date().getFullYear()} Nazar Labs, Inc. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Agent Arena, Inc. All rights reserved.</p>
           <div className="flex gap-4">
             <a href="#" className="hover:text-foreground">Privacy</a>
             <a href="#" className="hover:text-foreground">Terms</a>

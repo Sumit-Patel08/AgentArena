@@ -29,7 +29,7 @@ import { api, type Signal, type Competitor } from "@/lib/api";
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
     meta: [
-      { title: "Overview — Nazar" },
+      { title: "Overview — Agent Arena" },
       { name: "description", content: "Your competitor monitoring dashboard." },
     ],
   }),
@@ -204,7 +204,8 @@ function Dashboard() {
         <div className="flex items-center justify-between">
           <h2 className="text-sm font-semibold">Competitors</h2>
           <Link
-            to="/competitor/supabase"
+            to="/competitor/$id"
+            params={{ id: "supabase" }}
             className="inline-flex items-center gap-1 text-xs text-primary hover:underline"
           >
             View all <ArrowRight className="size-3" />
