@@ -16,13 +16,13 @@ import {
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Nazar — Know what your competitors did, before your users tell you" },
+      { title: "Agent Arena — Know what your competitors did, before your users tell you" },
       {
         name: "description",
         content:
-          "Nazar watches every competitor across GitHub, Reddit, and the web, remembers everything, and tells you exactly what to do next.",
+          "Agent Arena watches every competitor across GitHub, Reddit, and the web, remembers everything, and tells you exactly what to do next.",
       },
-      { property: "og:title", content: "Nazar — Competitive intelligence on autopilot" },
+      { property: "og:title", content: "Agent Arena — Competitive intelligence on autopilot" },
       {
         property: "og:description",
         content:
@@ -70,7 +70,7 @@ function Hero() {
           </span>
         </h1>
         <p className="mx-auto mt-5 max-w-2xl text-balance text-base text-muted-foreground md:text-lg">
-          Nazar watches every competitor across GitHub, Reddit, and the web, remembers
+          Agent Arena watches every competitor across GitHub, Reddit, and the web, remembers
           everything, and tells you exactly what to do next.
         </p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
@@ -106,7 +106,7 @@ function HeroPreview() {
           <span className="size-2.5 rounded-full bg-[#FF5F57]" />
           <span className="size-2.5 rounded-full bg-[#FEBC2E]" />
           <span className="size-2.5 rounded-full bg-[#28C840]" />
-          <span className="ml-3 text-xs text-muted-foreground">nazar.app / overview</span>
+          <span className="ml-3 text-xs text-muted-foreground">agentarena.app / overview</span>
         </div>
         <div className="rounded-xl bg-[var(--color-surface)] p-5 text-left">
           <div className="grid gap-4 sm:grid-cols-4">
@@ -231,13 +231,13 @@ function Features() {
     {
       kicker: "Always on",
       title: "It never sleeps.",
-      body: "Nazar monitors GitHub releases, Reddit, Hacker News, Discord, and competitor blogs around the clock — so you wake up to a feed, not a fire.",
+      body: "Agent Arena monitors GitHub releases, Reddit, Hacker News, Discord, and competitor blogs around the clock — so you wake up to a feed, not a fire.",
       visual: <FeedVisual />,
     },
     {
       kicker: "Long memory",
       title: "It never forgets.",
-      body: "Every signal becomes durable memory. The longer Nazar runs, the sharper its pattern detection — because today's event is compared to everything that came before.",
+      body: "Every signal becomes durable memory. The longer Agent Arena runs, the sharper its pattern detection — because today's event is compared to everything that came before.",
       visual: <MemoryGrowthVisual />,
       reverse: true,
     },
@@ -372,10 +372,10 @@ function MemorySection() {
             The memory advantage
           </p>
           <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">
-            How memory makes Nazar smarter every week.
+            How memory makes Agent Arena smarter every week.
           </h2>
           <p className="mt-4 text-muted-foreground">
-            Most tools alert you. Nazar reasons — across everything it has ever seen.
+            Most tools alert you. Agent Arena reasons — across everything it has ever seen.
           </p>
         </div>
 
@@ -433,7 +433,7 @@ function Metrics() {
       <figure className="mx-auto mt-10 max-w-2xl rounded-2xl border border-border bg-card p-8">
         <Quote className="size-5 text-primary" />
         <blockquote className="mt-3 text-lg leading-relaxed text-foreground">
-          "I used to refresh GitHub and Reddit ten times a day. Nazar gives me a morning
+          "I used to refresh GitHub and Reddit ten times a day. Agent Arena gives me a morning
           digest that's better than my whole previous routine — and it remembers context I'd
           forgotten about."
         </blockquote>
@@ -452,7 +452,7 @@ function FinalCTA() {
         Stop finding out last.
       </h2>
       <p className="mx-auto mt-4 max-w-xl text-muted-foreground">
-        Set up Nazar in five minutes. By next week it will already know more about your
+        Set up Agent Arena in five minutes. By next week it will already know more about your
         competitors than you do.
       </p>
       <div className="mt-8 flex justify-center gap-3">

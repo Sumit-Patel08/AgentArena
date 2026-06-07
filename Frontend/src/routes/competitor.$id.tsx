@@ -18,7 +18,7 @@ import { api } from "@/lib/api";
 export const Route = createFileRoute("/competitor/$id")({
   head: ({ params }) => ({
     meta: [
-      { title: `${params.id} — Competitor detail · Nazar` },
+      { title: `${params.id} — Competitor detail · Agent Arena` },
       { name: "description", content: `Memory and pattern insights for ${params.id}.` },
     ],
   }),
